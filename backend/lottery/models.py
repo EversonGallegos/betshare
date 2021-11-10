@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.deletion import DO_NOTHING
+from django.db.models.deletion import CASCADE, DO_NOTHING
 from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from game.models import Option, Game
@@ -50,16 +50,16 @@ class TicketStatus(models.Choices):
 
 class Ticket(models.Model):
     code = models.IntegerField(unique=True)
-    contest = models.ForeignKey(Contest, on_delete=DO_NOTHING)
+    contest = models.ForeignKey(Contest, on_delete=CASCADE)
     status = models.CharField(max_length=50, default=TicketStatus.OPEN)
     
     def __str__(self):
         return self.contest.game.name + "(" + str(self.code) + ")"
 
 class QuoteManager(models.Model):
-    option = ForeignKey(Option, on_delete=DO_NOTHING)
+    option = ForeignKey(Option, on_delete=CASCADE)
     requests = ManyToManyField(Request, related_name="request_quotes")
-    ticket = models.OneToOneField(Ticket, on_delete=DO_NOTHING)
+    ticket = models.OneToOneField(Ticket, on_delete=CASCADE)
     open = models.BooleanField(default=True)
     quotes_sold = models.IntegerField(
         validators=[
@@ -77,23 +77,28 @@ class Bet(models.Model):
 
 class Prize(models.Model):
     request = models.OneToOneField(Request, on_delete=DO_NOTHING)
-    bet = models.ForeignKey(Bet, on_delete=DO_NOTHING)
+    bet = models.ForeignKey(Bet, on_delete=CASCADE)
     prize = models.FloatField()
 
 def post_save_config(sender, **kwargs):
     instance = kwargs['instance']
     quote_manager=None
+    code_ticket = 0
+    contest=None
+    code_contest = 0
     try:
         quote_manager =  QuoteManager.objects.filter(open=True).get(option=instance.option)
-    except QuoteManager.DoesNotExist:
-        code_ticket = Ticket.objects.all().last().code
-        contest=None
+    except QuoteManager.DoesNotExist: 
+        if(len(Ticket.objects.all()) > 0):
+            code_ticket = Ticket.objects.all().last().code
         try:
             contest = Contest.objects.filter(
-                                    status=ContestStatus.OPEN).get(
+                                        status=ContestStatus.OPEN
+                                    ).get(
                                         game=instance.optiongame)
-        except:
-            code_contest = Contest.objects.all().last().code
+        except:  
+            if(len(Contest.objects.all()) > 0):
+                code_contest = Contest.objects.all().last().code
             contest = Contest(
                             code=code_contest+1,
                             game=instance.option.game,

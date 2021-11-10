@@ -7,7 +7,7 @@ from .models import (Request,
                     Prize)
 
 # Register your models here.
-class QuoteManageInLine(admin.StackedInline):
+class QuoteManageInLine(admin.TabularInline):
     model = QuoteManager
 class RequestInLine(admin.StackedInline):
     model = Request
@@ -15,7 +15,7 @@ class BetInLine(admin.TabularInline):
     model = Bet
 class PrizeInLine(admin.TabularInline):
     model = Prize
-class TicketInLine(admin.StackedInline):
+class TicketInLine(admin.TabularInline):
     model = Ticket
 
 class RequestAdmin(admin.ModelAdmin):
