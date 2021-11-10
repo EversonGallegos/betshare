@@ -1,10 +1,14 @@
 from django.contrib import admin
+
+
+from game.models import Option
 from .models import (Request, 
                     QuoteManager, 
                     Contest,
                     Ticket,
                     Bet,
-                    Prize)
+                    Prize,
+                    Draw)
 
 # Register your models here.
 class QuoteManageInLine(admin.TabularInline):
@@ -23,31 +27,43 @@ class RequestAdmin(admin.ModelAdmin):
                     'option', 
                     'quotes', 
                     'price', 
-                    'status')
+                    'status',)
     readonly_fields = ('price', )
 
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ('contest', 
-                    'status',)
+    list_display = ('option',
+                    'status',
+                    'quotes_sold')
+    readonly_fields = ('quotes_sold',)
     inlines = [QuoteManageInLine,
                 BetInLine,]
+    def quotes_sold(self, instance):
+        quotes_sold = 0
+        for r in instance.requests:
+            quotes_sold += r.quotes
+        return quotes_sold
 
 class BetAdmin(admin.ModelAdmin):
     list_display = ('ticket',
+                    'contest',
                     'numbers',
-                    'proof',
+                    'create_date',
                     'status')
-    inlines = [PrizeInLine, ]
 
 class ContestAdmin(admin.ModelAdmin):
     list_display = ('game', 
                     'code', 
                     'status', 
-                    'prize', 
-                    'numbers_drawn')
-    inlines = [TicketInLine,]
+                    'prize',)
+
+class DrawAdmin(admin.ModelAdmin):
+    list_display = ('contest',
+                    'numbers_drawn',
+                    'date')
+    inlines = [PrizeInLine, ]
 
 admin.site.register(Ticket,TicketAdmin)
 admin.site.register(Request, RequestAdmin)
 admin.site.register(Bet, BetAdmin)
 admin.site.register(Contest, ContestAdmin)
+admin.site.register(Draw, DrawAdmin)
