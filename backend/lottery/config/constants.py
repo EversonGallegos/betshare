@@ -1,0 +1,1 @@
+MAX_QUOTES = 250

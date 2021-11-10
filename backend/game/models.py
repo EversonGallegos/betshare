@@ -6,9 +6,16 @@ from django.db.models.fields.related import ForeignKey
 class Game(models.Model):
     name = models.CharField(max_length=50)
     color = models.CharField(max_length=50)
+    is_active = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return self.name
 
 class Option(models.Model):
     game = ForeignKey(Game, on_delete=CASCADE)
     numbers = models.IntegerField()
     price = models.FloatField()
-    chance = models.FloatField()
+    chance = models.FloatField(blank=True, null=True)
+
+    def __str__(self):
+        return self.game.name + "(" + str(self.numbers) + ")"

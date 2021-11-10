@@ -5,8 +5,9 @@ from django.db.models.deletion import CASCADE
 
 class UserDocs(models.Model):
     user = models.OneToOneField(User, on_delete=CASCADE)
-    RG = models.CharField(max_length=20)
-    CPF = models.CharField(max_length=20)
+    RG = models.CharField(max_length=20, blank=True)
+    date_of_birth = models.DateField(blank=True)
+    CPF = models.CharField(max_length=20, blank=True)
 
 class UserContact(models.Model):
     user = models.OneToOneField(User, on_delete=CASCADE)

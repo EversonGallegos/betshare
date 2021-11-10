@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'user',
     'game',
     'lottery',
-    'bet',
 ]
 
 MIDDLEWARE = [
