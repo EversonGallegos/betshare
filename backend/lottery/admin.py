@@ -1,6 +1,4 @@
 from django.contrib import admin
-
-
 from game.models import Option
 from .models import (Request, 
                     QuoteManager, 
