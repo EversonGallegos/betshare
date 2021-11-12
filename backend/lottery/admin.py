@@ -28,6 +28,14 @@ class RequestAdmin(admin.ModelAdmin):
                     'status',)
     readonly_fields = ('price', )
 
+    def save_model(self, request, obj, form, change):
+        update_fields = []
+        if change:
+            if form.cleaned_data['status'] != form.initial['status']:
+                update_fields.append('status')
+        obj.save(update_fields=update_fields)
+        super().save_model(request, obj, form, change)
+
 class TicketAdmin(admin.ModelAdmin):
     list_display = ('option',
                     'status',
@@ -35,11 +43,6 @@ class TicketAdmin(admin.ModelAdmin):
     readonly_fields = ('quotes_sold',)
     inlines = [QuoteManageInLine,
                 BetInLine,]
-    def quotes_sold(self, instance):
-        quotes_sold = 0
-        for r in instance.requests:
-            quotes_sold += r.quotes
-        return quotes_sold
 
 class BetAdmin(admin.ModelAdmin):
     list_display = ('ticket',
