@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from lottery.models import Bet
 from lottery.models import Request
 from game.models import (Game, Option)
 
@@ -18,3 +19,7 @@ class RequestSerializer(serializers.ModelSerializer):
         model = Request
         fields = ('user', 'option', 'quotes')
     
+class BetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bet
+        fields = ('ticket', 'contest', 'numbers', 'status')
