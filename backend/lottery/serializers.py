@@ -1,7 +1,16 @@
+from django.db.models import fields
 from rest_framework import serializers
-from lottery.models import Bet
-from lottery.models import Request
+from lottery.models import (QuoteManager, 
+                            Bet, 
+                            Request,
+                            Contest,
+                            Ticket)
 from game.models import (Game, Option)
+
+class ContestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contest
+        fields = '__all__'
 
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,12 +23,23 @@ class GameSerializer(serializers.ModelSerializer):
         model = Game
         fields = ('name', 'color', 'is_active', 'options')
 
+class QuoteManagerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuoteManager
+        fields = ('ticket','request','transaction','quotes')
+
 class RequestSerializer(serializers.ModelSerializer):
+    quote_manager = QuoteManagerSerializer()
     class Meta:
         model = Request
-        fields = ('user', 'option', 'quotes')
+        fields = ('user', 'option', 'quotes', 'price', 'status', 'quote_manager')
     
 class BetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bet
         fields = ('ticket', 'contest', 'numbers', 'status')
+
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = '__all__'

@@ -31,7 +31,7 @@ class Request(models.Model):
         super(Request, self).save(*args, **kwargs)
 
 class ContestStatus(models.Choices):
-    PENDING = 'pending'
+    PENDING = 'pending' 
     FINISHED = 'finished'
 
 class Contest(models.Model):
@@ -79,9 +79,9 @@ class Ticket(models.Model):
         super(Ticket, self).save(*args)
 
 class QuoteManager(models.Model):
-    ticket = models.ForeignKey(Ticket, on_delete=CASCADE)
-    request = models.ForeignKey(Request, on_delete=CASCADE)
-    transaction = models.CharField(max_length=250)
+    ticket = models.ForeignKey(Ticket, on_delete=CASCADE, null=True,blank=True)
+    request = models.ForeignKey(Request, on_delete=CASCADE, related_name='quote_manager', null=True, blank=True)
+    transaction = models.CharField(max_length=250, null=True, blank=True)
     quotes = models.IntegerField(default=0) 
 
 class BetStatus(models.Choices):

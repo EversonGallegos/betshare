@@ -1,7 +1,9 @@
 from django.urls import path
 from .views import (GamesView,
                     RequestView,
-                    BetView)
+                    BetView,
+                    ContestView,
+                    TicketView)
 urlpatterns = [
     path('games/', 
         GamesView.as_view({
@@ -11,12 +13,37 @@ urlpatterns = [
         GamesView.as_view({
             'get':'retrieve'
         })),
+    path('contest/', 
+        ContestView.as_view({
+            'get':'list'
+        })),
+    path('contest/<int:pk>', 
+        ContestView.as_view({
+            'get':'retrieve'
+        })),
     path('profile/request/', 
         RequestView.as_view({
-            'post':'create'
+            'post':'create',    
+            'get':'list'
         })),
+    path('profile/request/<int:pk>',
+        RequestView.as_view({
+            'get':'retrieve'
+    })),
     path('profile/bets/',
         BetView.as_view({
             'get':'list'
-        }))
+        })),
+    path('profile/bets/<int:pk>/',
+        BetView.as_view({
+            'get':'retrieve'
+        })),
+    path('profile/tickets/',
+        TicketView.as_view({
+            'get':'list'
+        })),
+    path('profile/tickets/<int:pk>/',
+        TicketView.as_view({
+            'get':'retrieve'
+        })),
 ]
