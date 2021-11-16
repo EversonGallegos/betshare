@@ -104,8 +104,7 @@ class BetView(ViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 permission_classes([IsAuthenticated])
-class TicketView(ViewSet):
-    
+class TicketView(ViewSet):    
     def retrieve(self, request, pk):
         requests = Request.objects.filter(user = request.user)
         for r in requests.all():
@@ -128,7 +127,6 @@ class TicketView(ViewSet):
                 tickets.append(qm.ticket)
             except:
                 continue
-        print(tickets)
         if(len(tickets) > 0):
             serializer =  TicketSerializer(tickets, many=True)
             return Response(
