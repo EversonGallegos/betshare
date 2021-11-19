@@ -51,13 +51,14 @@ const GameItem = ({color, name, min, max, prize}) => {
                     <Label htmlFor='total_price'>Preço total:</Label>
                     <MoneyView color={color}>R$ 200,00</MoneyView>
                 </GroupGameInput>
-                <CloseToggle 
-                    color={color}
-                    onClick={closeToggle}>^</CloseToggle>
+                <CloseToggle color={color} onClick={closeToggle}>&#5169;</CloseToggle>
                 <Button color={color}>Adicionar aposta</Button>
             </ContainerGameInput> 
             :
+            <>
+            <CloseToggle color={color} onClick={closeToggle}>&#5167;</CloseToggle>
             <GameNumbers color={color}><p>escolha entre {min} e {max} números</p></GameNumbers>
+            </>
             }
         </ContainerGameItem>
     )
