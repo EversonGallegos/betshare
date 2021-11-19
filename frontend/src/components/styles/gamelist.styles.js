@@ -10,6 +10,7 @@ export const ContainerGameList =  styled.div`
 `
 
 export const ContainerGameItem = styled.div`
+    border: 7px solid white;
     display: flex;
     min-width: 320px;
     background: #FFFCD5;
@@ -35,7 +36,6 @@ export const ContainerInner = styled.div`
 
 export const GameName = styled.div`
     display: flex;
-    border: 5px solid #fff;
     color: white;
     justify-content: center;
     font-size: 1.2rem;
@@ -54,7 +54,7 @@ export const GameNumbers = styled.div`
     justify-content: center;
     align-items: center;
     text-align: center;
-    border: 5px solid #fff;
+    border-top: 5px solid #fff;
 `
 
 export const GamePrize = styled.div`
@@ -84,7 +84,7 @@ export const TicketNumbersStyled = styled.div`
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     justify-items: center;
-    border: 5px solid white;
+    border-top: 5px solid white;
     padding: 10px;
 `
 
