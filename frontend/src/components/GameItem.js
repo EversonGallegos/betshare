@@ -1,14 +1,17 @@
 import React from 'react'
-import { GameName, ContainerGameItem, GameNumbers, GamePrize, ContainerInner } from './styles/gamelist.styles'
+import { GameName, ContainerGameItem, GameNumbers, GamePrize } from './styles/gamelist.styles'
+import Clover from './Clover'
+import TicketNumbers from './TicketNumbers'
 
 const GameItem = ({color, name, min, max, prize}) => {
     return (
         <ContainerGameItem>
-            <ContainerInner>
-                <GameName color={color}>{name}</GameName>
-                <GameNumbers><p>escolha entre {min} e {max} números</p></GameNumbers>
-            </ContainerInner>
-            <GamePrize><strong>premiação estimada:</strong>{prize}</GamePrize>
+            <GameName color={color}>
+                <Clover />
+                {name}
+            </GameName>
+            <TicketNumbers />
+            <GameNumbers><p>escolha entre {min} e {max} números</p></GameNumbers>
         </ContainerGameItem>
     )
 }

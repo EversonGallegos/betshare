@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components/macro"
 
 
 export const Container = styled.div`
@@ -9,5 +9,6 @@ export const Container = styled.div`
     box-sizing: border-box;
     width: 100vw;
     height: 100%;
+    align-items: center;
     font-family: 'Poppins', sans-serif;
 `

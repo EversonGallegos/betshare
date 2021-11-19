@@ -28,7 +28,7 @@ export const Itens = [
         'prize': '20 milhões',
     },
     {
-        'name': 'die de sorte',
+        'name': 'dia de sorte',
         'color': '#FFAD44',
         'min': 10,
         'max': 15,

@@ -1,12 +1,11 @@
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 export const LogoStyled = styled.h1`
     font-size: 1.2rem;
     color: white;
-    padding-left: 10px;
 `
 export const ContainerHeader = styled.div`
-    width: 100%;
+    width: 100vw;
     height: 50px;
     background-color: #005DA8;
     display: flex;
@@ -26,10 +25,10 @@ export const ContainerAuth = styled.nav`
 `
 
 export const Inner =  styled.div`
-    max-width: 910px;
+    max-width: 900px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 100%;
-    width: 100%
+    width: 90%
 `

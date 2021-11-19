@@ -61,7 +61,7 @@ const Game = (data) => {
                 </GroupItems>
                 <GroupItems>
                     <label htmlFor='quote_price'>Preço da cota:</label>
-                    <UnmutableValue name='quote_price'>{getQuotePrice()}</UnmutableValue> 
+                    <UnmutableValue name='quote_price'>R$ {getQuotePrice()}</UnmutableValue> 
                 </GroupItems>
                 <GroupItems>
                     <label htmlFor='quote_numbers'>Quantidade de cotas:</label>
@@ -73,7 +73,7 @@ const Game = (data) => {
                 </GroupItems>
                 <GroupItems>
                     <label htmlFor='total_price'>Preço total:</label>
-                    <UnmutableValue name='total_price'>{getTotalPrice()}</UnmutableValue> 
+                    <UnmutableValue name='total_price'>R$ {getTotalPrice()}</UnmutableValue> 
                 </GroupItems>
                 <SubmitButton type='submit'>Finalizar</SubmitButton>
             </FormGame>
