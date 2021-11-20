@@ -15,6 +15,8 @@ const GameList = () => {
                     max={item['max']}
                     min={item['min']}
                     prize={item['prize']}
+                    total_numbers={item['total_numbers']}
+                    total_queue={item['total_queue']}
                 />)}
             </ContainerGameList>
         </Inner>

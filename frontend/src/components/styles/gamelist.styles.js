@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro'
+import { fontFuturaBold } from '../../styles/global'
 
 export const ContainerGameList =  styled.div`
     display: flex;
@@ -7,6 +8,7 @@ export const ContainerGameList =  styled.div`
     height: calc(100% - 60px);
     width: 100%;
     max-width: 900px;
+    font-family: 'Futura Book';
 `
 
 export const ContainerGameItem = styled.div`
@@ -35,24 +37,25 @@ export const ContainerInner = styled.div`
 `
 
 export const GameName = styled.div`
+    font-family: 'Futura Bold';
     display: flex;
     color: white;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 600;
     background: ${props => props.color ? props.color : '#005DA8'};
     padding: 10px;
 
 `
 export const GameNumbers = styled.div`
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: white;
-    font-weight: 600;
+    font-family: 'Futura Bold';
     display: flex;
     flex: 1;
     background: ${props => props.color ? props.color : '#F6941E'};
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     text-align: center;
     border-top: 5px solid #fff;
 `
@@ -70,10 +73,12 @@ export const Inner = styled.div`
 export const TicketNumbersStyled = styled.div`
     font-size: 0.9rem;
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(${props => props.total_queue ? props.total_queue : 10}, 1fr);
     justify-items: center;
     border-top: 5px solid white;
     padding: 10px;
+    //flex: 1;
+    max-height: 175px;
 `
 
 export const TicketNumber = styled.div`
@@ -85,6 +90,8 @@ export const TicketNumber = styled.div`
     font-size: 0.8rem;
     font-family: monospace;
     color: #F6941E;
+    cursor: default;
+    text-decoration: ${props => props.selected ? 'line-through' : 'none'};
     @media screen and (max-width:330px){
         font-size: 0.7rem;
         height: 15px;
@@ -99,8 +106,8 @@ export const ContainerGameInput = styled.div`
     flex-direction: column;
     padding: 10px;
     max-width: 300px;
+    margin: auto 0 0 0;
 `
-
 export const GroupGameInput =  styled.div`
     display: flex;
     padding: 15px 0;
@@ -112,7 +119,8 @@ export const GroupGameInput =  styled.div`
         font-weight: 600;
         color: #F6941E;
         align-self: center;
-        max-width: 40%
+        max-width: 40%;
+        background: #fff;
     }
     &:first-of-type{
         flex-direction: column;
@@ -129,11 +137,12 @@ export const Input = styled.input`
 `
 
 export const Label = styled.label`
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #F6941E;
     text-align: right;
     margin-bottom: 5px;
     min-width: 50%;
+    font-weight: 600;
     align-self: center;
 `
 
@@ -143,11 +152,12 @@ export const GroupInputInner = styled.div`
 
 export const NumbersView = styled.div`
     display: flex;
-    height: 20px;
-    width: 20px;
+    height: 23px;
+    width: 23px;
+    font-weight: 600;
     justify-content: center;
     align-items: center;
-    border: 2px solid #FFF;
+    border: 4px solid #FFF;
     margin-right: 10px;
     background: ${props => props.color ? props.color : '#FFF'};
     color: ${props => props.color ? '#FFF' : '#000'};
@@ -156,7 +166,7 @@ export const NumbersView = styled.div`
 export const MoneyView = styled.div`
     display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
     min-width: 70px;
     font-size: 0.8rem;
     margin-left: 10px;
@@ -176,12 +186,26 @@ export const CloseToggle = styled.div`
         opacity: 0.8;
     }
 `
+export const OpenToggle = styled.div`
+    background: ${props => props.color ? props.color : '#F6941E;'};
+    margin: auto 0 0 0;
+    cursor: pointer;
+    border-top: 5px solid #fff;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    color: #fff;
+    &:hover{
+        opacity: 0.8;
+    }
+`
 
 export const Button = styled.div`
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: white;
     font-weight: 600;
     display: flex;
+    font-family: 'Futura Bold';
     flex: 1;
     cursor: poiter;
     background: ${props => props.color ? props.color : '#F6941E'};
@@ -190,4 +214,11 @@ export const Button = styled.div`
     text-align: center;
     padding: 10px 0;
     border-top: 5px solid #fff;
+`
+
+export const GroupToggle = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-self: flex-end;
+    margin: auto 0 0 0 ;
 `
