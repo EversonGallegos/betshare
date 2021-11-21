@@ -16,17 +16,6 @@ const TicketNumbers = ({total_numbers, total_queue, numbers}) => {
         }
     }
     
-    const handleCounter = (select) => 
-    {
-        if(select && counter < numbers){
-            setCounter(counter+1)
-            return true;
-        }else if(!select && counter > 0){
-            setCounter(counter-1)
-            return true;
-        }
-        return false;
-    }
     const handleSelected = (index, number, select) => {
         let size_selected = Object.keys(selected).length
         if(selected[index] === undefined 
@@ -40,17 +29,18 @@ const TicketNumbers = ({total_numbers, total_queue, numbers}) => {
     }
     useEffect(() => {
         let size_selected = Object.keys(selected).length
-        console.log(size_selected)
+        console.log(Object.keys(selected))
         if(size_selected > numbers){
             let rest = size_selected - numbers
             setCounter(false)
+
             delete selected[Object.keys(selected)[size_selected-1]]
             setSelected({...selected})
         }
     }, [selected, numbers])
 
     const isSelected = (index) => {
-        if(selected[index] !== undefined){
+        if(selected['i'+index.toString()] !== undefined){
             return true
         }
         return false
@@ -62,7 +52,6 @@ const TicketNumbers = ({total_numbers, total_queue, numbers}) => {
             {ticketnumbers.map((number, index) => 
                 <Number number={number}
                     index={index}
-                    handleCounter={handleCounter}
                     handleSelected={handleSelected}
                     isSelected = {isSelected(index)}
                 />)
