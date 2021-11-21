@@ -28,7 +28,10 @@ const TicketNumbers = ({total_numbers, total_queue, numbers}) => {
         return false;
     }
     const handleSelected = (index, number, select) => {
-        if(selected[index] === undefined && select){
+        let size_selected = Object.keys(selected).length
+        if(selected[index] === undefined 
+            && select
+            && size_selected < numbers){
             setSelected({...selected, [index]:number})
         }else if(selected[index] === number && !select){
             delete selected[index]
@@ -40,6 +43,7 @@ const TicketNumbers = ({total_numbers, total_queue, numbers}) => {
         console.log(size_selected)
         if(size_selected > numbers){
             let rest = size_selected - numbers
+            setCounter(false)
             delete selected[Object.keys(selected)[size_selected-1]]
             setSelected({...selected})
         }
