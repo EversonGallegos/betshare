@@ -1,16 +1,21 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { TicketNumber } from './styles/gamelist.styles'
 
-const Number = ({number, key, handleCounter}) => {
+const Number = ({number, index, handleCounter, handleSelected, isSelected}) => {
     const [selected, setSelected] = useState(false)
     const handleClick = () => {
-        if(handleCounter(!selected, number)){
-            setSelected(!selected)
+        if(handleCounter(!selected)){
+            handleSelected(index, number, !selected)
         }
     }
+
+    useEffect(()=>{
+        setSelected(isSelected);
+    }, [isSelected])
+    
     return (
-        <TicketNumber key={key} onClick={handleClick} selected={selected}>
-                {number}
+        <TicketNumber key={index} onClick={handleClick} selected={selected}>
+            {number}
         </TicketNumber>
     )
 }

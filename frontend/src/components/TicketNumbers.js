@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Number from './Number'
 import { TicketNumbersStyled } from './styles/gamelist.styles'
 
 
 const TicketNumbers = ({total_numbers, total_queue, numbers}) => {
     var ticketnumbers = []
+    const [counter, setCounter] = useState(0)
+    const [selected, setSelected] = useState({})
+    
     for(let i = 1; i <= total_numbers; i++){
         if(i < 10){
             ticketnumbers.push('[0'+i+']')
@@ -12,20 +15,11 @@ const TicketNumbers = ({total_numbers, total_queue, numbers}) => {
             ticketnumbers.push('['+i+']')
         }
     }
-    const [counter, setCounter] = useState(0)
-    const [selectedNumbers, setSelectedNumbers] = useState([])
-
-    const addSelected = (item) => {
-        let selected = [...selectedNumbers]
-        selected.push(item)
-        setSelectedNumbers(selected)
-        console.log(selectedNumbers)
-    }
-    const handleCounter = (select, number) => 
+    
+    const handleCounter = (select) => 
     {
         if(select && counter < numbers){
             setCounter(counter+1)
-            addSelected(number)
             return true;
         }else if(!select && counter > 0){
             setCounter(counter-1)
@@ -33,17 +27,42 @@ const TicketNumbers = ({total_numbers, total_queue, numbers}) => {
         }
         return false;
     }
+    const handleSelected = (index, number, select) => {
+        if(selected[index] === undefined && select){
+            setSelected({...selected, [index]:number})
+        }else if(selected[index] === number && !select){
+            delete selected[index]
+            setSelected({...selected})
+        }
+    }
+    useEffect(() => {
+        let size_selected = Object.keys(selected).length
+        console.log(size_selected)
+        if(size_selected > numbers){
+            let rest = size_selected - numbers
+            delete selected[Object.keys(selected)[size_selected-1]]
+            setSelected({...selected})
+        }
+    }, [selected, numbers])
 
-    
+    const isSelected = (index) => {
+        if(selected[index] !== undefined){
+            return true
+        }
+        return false
+    }
+
+
     return (
         <TicketNumbersStyled total_queue={total_queue}>
-            {ticketnumbers.map((number, key) => 
-                <Number 
-                    number={number} 
-                    key={key} 
-                    handleCounter={handleCounter} 
-                />
-            )}
+            {ticketnumbers.map((number, index) => 
+                <Number number={number}
+                    index={index}
+                    handleCounter={handleCounter}
+                    handleSelected={handleSelected}
+                    isSelected = {isSelected(index)}
+                />)
+            }
         </TicketNumbersStyled>
 
     )

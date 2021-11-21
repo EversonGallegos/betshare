@@ -90,7 +90,7 @@ export const TicketNumber = styled.div`
     font-size: 0.8rem;
     font-family: monospace;
     color: #F6941E;
-    cursor: default;
+    cursor: pointer;
     text-decoration: ${props => props.selected ? 'line-through' : 'none'};
     @media screen and (max-width:330px){
         font-size: 0.7rem;
