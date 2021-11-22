@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { GameName, 
     ContainerGameItem, 
     GameNumbers, 
@@ -15,9 +15,14 @@ import { GameName,
 import Clover from './Clover'
 import TicketNumbers from './TicketNumbers'
 
-const GameItem = ({color, name, min, max, total_numbers, total_queue}) => {
+const GameItem = ({color, name, options, total_numbers, total_queue}) => {
+    const min = options[0]['numbers']
+    const max = options[options.length-1]['numbers']
     const [toggle, setToggle] = useState(false)
     const [numbers, setNumbers] = useState(min)
+    const [quote_value, setQuoteValue] = useState(options[0]['quote_value'])
+    const [quote_numbers, setQuoteNumbers] = useState(1)
+    const [total_price, setTotalPrice] = useState(quote_value)
 
     const openToggle = () => {
         if(!toggle) setToggle(true)
@@ -27,9 +32,24 @@ const GameItem = ({color, name, min, max, total_numbers, total_queue}) => {
         console.log(toggle)
         setToggle(false)
     }
+    useEffect(() => {
+        setTotalPrice(quote_numbers * quote_value)
+    }, [quote_numbers, quote_value])
 
-    const handleNumbers = (e) => {setNumbers(e.target.value)}
+    const handleNumbers = (e) => {
+        let nmbs = e.target.value
+        let qt_price = options[nmbs-min]['quote_value']
+        setNumbers(nmbs)
+        setQuoteValue(qt_price)
+    }
 
+    const handleQuoteNumbers = (e) => {
+        if(e.target.value >= 1){
+            setQuoteNumbers(e.target.value)
+        }else{
+            setQuoteNumbers(1)
+        }
+    }
 
     return (
         <ContainerGameItem onClick={openToggle} toggle={toggle}>
@@ -55,16 +75,20 @@ const GameItem = ({color, name, min, max, total_numbers, total_queue}) => {
                             min={min} 
                             max={max} 
                             />
-                        <MoneyView>R$ 20,00</MoneyView>
+                        <MoneyView>R$ {quote_value}</MoneyView>
                     </GroupInputInner>
                 </GroupGameInput>
                 <GroupGameInput>
                     <Label htmlFor='quote_numbers'>Quantidade de cotas:</Label>
-                    <Input type='number' name='quote_numbers'/>
+                    <Input 
+                        type='number' 
+                        name='quote_numbers'
+                        value={quote_numbers}
+                        onChange={handleQuoteNumbers}/>
                 </GroupGameInput>
                 <GroupGameInput>
                     <Label htmlFor='total_price'>Preço total:</Label>
-                    <MoneyView color={color}>R$ 200,00</MoneyView>
+                    <MoneyView color={color}>R$ {total_price}</MoneyView>
                 </GroupGameInput>
                 <GroupToggle>
                     <CloseToggle color={color} onClick={closeToggle}>&#5169;</CloseToggle>

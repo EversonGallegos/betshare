@@ -12,7 +12,7 @@ export const ContainerGameList =  styled.div`
 `
 
 export const ContainerGameItem = styled.div`
-    border: 7px solid white;
+    border: 7px solid #fff;
     display: flex;
     min-width: 320px;
     background: #FFFCD5;
@@ -52,7 +52,7 @@ export const GameNumbers = styled.div`
     color: white;
     font-family: 'Futura Bold';
     display: flex;
-    flex: 1;
+    //flex: 1;
     background: ${props => props.color ? props.color : '#F6941E'};
     justify-content: center;
     align-items: flex-end;
@@ -77,7 +77,6 @@ export const TicketNumbersStyled = styled.div`
     justify-items: center;
     border-top: 5px solid white;
     padding: 10px;
-    //flex: 1;
     max-height: 175px;
 `
 

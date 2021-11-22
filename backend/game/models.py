@@ -6,6 +6,8 @@ from lottery.config.constants import MAX_QUOTES, TAX
 class Game(models.Model):
     name = models.CharField(max_length=50)
     color = models.CharField(max_length=50)
+    total_numbers = models.IntegerField()
+    total_queues = models.IntegerField()
     is_active = models.BooleanField(default=True)
     
     def __str__(self):

@@ -21,7 +21,7 @@ class GameSerializer(serializers.ModelSerializer):
     options = OptionSerializer(many=True)
     class Meta:
         model = Game
-        fields = ('name', 'color', 'is_active', 'options')
+        fields = ('name', 'color', 'is_active', 'options', 'total_numbers', 'total_queues')
 
 class QuoteManagerSerializer(serializers.ModelSerializer):
     class Meta:
