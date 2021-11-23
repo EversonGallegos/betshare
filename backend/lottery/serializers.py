@@ -15,7 +15,7 @@ class ContestSerializer(serializers.ModelSerializer):
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Option
-        fields = ('numbers', 'price', 'chance','quote_value')
+        fields = ('id', 'numbers', 'price', 'chance','quote_value')
 
 class GameSerializer(serializers.ModelSerializer):
     options = OptionSerializer(many=True)
@@ -34,6 +34,10 @@ class RequestSerializer(serializers.ModelSerializer):
         model = Request
         fields = ('user', 'option', 'quotes', 'price', 'status', 'quote_manager')
     
+class sendRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Request
+        fields = ('user', 'option', 'quotes', 'suggested_numbers')
 class BetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bet

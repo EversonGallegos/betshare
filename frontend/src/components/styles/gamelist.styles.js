@@ -206,7 +206,7 @@ export const Button = styled.div`
     display: flex;
     font-family: 'Futura Bold';
     flex: 1;
-    cursor: poiter;
+    cursor: pointer;
     background: ${props => props.color ? props.color : '#F6941E'};
     justify-content: center;
     align-items: center;

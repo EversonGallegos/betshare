@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import GameItem from '../components/GameItem'
 import { ContainerGameList, Inner } from '../components/styles/gamelist.styles'
-import { Itens } from './data/itens-games'
+import { service } from '../services/api'
 
 const GameList = () => { 
     const [games, setGames] = useState([])
-    const URL = 'http://127.0.0.1:8000/api/games/'
     useEffect(() => {
-        const getGames = async () =>{
-            const data = await fetch(URL, {
-                headers: {
-                    'Authorization': 'token c556349da55f68e59805f7ce0f2558bea2036270',
-                    'Content-Type': 'application/json'
-                }
-            }).then(response => response.json())
-            const result = await data
-            setGames(result)
-        }
-        getGames()
+        service.getGames(setGames)
     },[])
+
     return (
         <Inner>    
             <ContainerGameList>

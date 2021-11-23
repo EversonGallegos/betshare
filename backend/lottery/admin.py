@@ -23,7 +23,8 @@ class TicketInLine(admin.TabularInline):
 class RequestAdmin(admin.ModelAdmin):
     list_display = ('user', 
                     'option', 
-                    'quotes', 
+                    'quotes',
+                    'suggested_numbers', 
                     'price', 
                     'status',)
     readonly_fields = ('price', )

@@ -11,7 +11,8 @@ from .serializers import (
                         ContestSerializer,
                         GameSerializer,
                         RequestSerializer,
-                        TicketSerializer)
+                        TicketSerializer,
+                        sendRequestSerializer)
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ViewSet
@@ -33,12 +34,14 @@ class GamesView(ViewSet):
 class RequestView(ViewSet):
     def create(self, request):
         data = request.data
+        print(request.user.id)
         data_serializable = {
             "user": request.user.id,
             "option": int(data['option']),
-            "quotes": int(data['quotes'])
+            "quotes": int(data['quotes']),
+            "suggested_numbers": data['suggested_numbers']
         }
-        serializer = RequestSerializer(data = data_serializable)
+        serializer = sendRequestSerializer(data = data_serializable)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(data, status=status.HTTP_201_CREATED)

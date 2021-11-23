@@ -3,9 +3,8 @@ import Number from './Number'
 import { TicketNumbersStyled } from './styles/gamelist.styles'
 
 
-const TicketNumbers = ({total_numbers, total_queue, numbers}) => {
+const TicketNumbers = ({total_numbers, total_queue, numbers, setSelecteds}) => {
     var ticketnumbers = []
-    const [counter, setCounter] = useState(0)
     const [selected, setSelected] = useState({})
     
     for(let i = 1; i <= total_numbers; i++){
@@ -26,14 +25,12 @@ const TicketNumbers = ({total_numbers, total_queue, numbers}) => {
             delete selected[index]
             setSelected({...selected})
         }
+        const values = Object.values(selected)
+        setSelecteds(values.join(',').replace(/[\[\]]/g,''))
     }
     useEffect(() => {
         let size_selected = Object.keys(selected).length
-        console.log(Object.keys(selected))
         if(size_selected > numbers){
-            let rest = size_selected - numbers
-            setCounter(false)
-
             delete selected[Object.keys(selected)[size_selected-1]]
             setSelected({...selected})
         }

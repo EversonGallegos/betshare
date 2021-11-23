@@ -1,11 +1,12 @@
 from django.urls import path
-from .views import Login, Logout, Register
+from .views import Login, Logout, Register, getUser
 from rest_framework.authtoken import views
 
 urlpatterns = [
     path('login/', Login.as_view()),
     path('logout/', Logout.as_view()),
-    path('register/', Register.as_view())
+    path('register/', Register.as_view()),
+    path('getuser/', getUser.as_view()),
 ]
 
 urlpatterns += [

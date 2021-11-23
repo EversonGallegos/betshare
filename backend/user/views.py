@@ -45,3 +45,15 @@ class Register(APIView):
             user = User.objects.create_user(data['username'], data['email'], data['password'])
             user.save()
         return Response(data={"user":user.username},status=status.HTTP_201_CREATED)
+
+
+class getUser(APIView):
+    def get(self, request):
+        data = request.data
+        print(data['token'])
+        try:
+            user = User.objects.get(auth_token__key = data['token'])
+            return Response({'user':str(user)}, status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+

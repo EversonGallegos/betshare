@@ -21,13 +21,14 @@ class Request(models.Model):
     option = models.ForeignKey(Option, on_delete=DO_NOTHING)
     quotes = models.IntegerField()
     price =  models.FloatField(null=True, blank=True)
+    suggested_numbers = models.CharField(max_length=250)
     status = models.CharField(max_length=50, choices=RequestStatus.choices, default=RequestStatus.OPEN)
 
     def __str__(self):
         return self.user.username + "(" + str(self.quotes) + ")"
 
     def save(self, *args, **kwargs):
-        self.price = round(((self.option.price / MAX_QUOTES) * self.quotes),2) 
+        self.price = round((self.option.quote_value * self.quotes),2) 
         super(Request, self).save(*args, **kwargs)
 
 class ContestStatus(models.Choices):
