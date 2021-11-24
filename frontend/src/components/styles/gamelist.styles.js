@@ -76,8 +76,8 @@ export const TicketNumbersStyled = styled.div`
     grid-template-columns: repeat(${props => props.total_queue ? props.total_queue : 10}, 1fr);
     justify-items: center;
     border-top: 5px solid white;
-    padding: 10px;
     max-height: 175px;
+    padding-top: 10px;
 `
 
 export const TicketNumber = styled.div`
@@ -88,7 +88,7 @@ export const TicketNumber = styled.div`
     justify-content: center;
     font-size: 0.8rem;
     font-family: monospace;
-    color: #F6941E;
+    color: ${props => props.selected ? props.color : '#F6941E'};
     cursor: pointer;
     text-decoration: ${props => props.selected ? 'line-through' : 'none'};
     @media screen and (max-width:330px){
@@ -121,7 +121,7 @@ export const GroupGameInput =  styled.div`
         max-width: 40%;
         background: #fff;
     }
-    &:first-of-type{
+    &:nth-child(1){
         flex-direction: column;
         label {
             text-align: center;
@@ -213,6 +213,9 @@ export const Button = styled.div`
     text-align: center;
     padding: 10px 0;
     border-top: 5px solid #fff;
+    &:hover{
+        opacity: 0.8;
+    }
 `
 
 export const GroupToggle = styled.div`
@@ -220,4 +223,37 @@ export const GroupToggle = styled.div`
     flex-direction: column;
     justify-self: flex-end;
     margin: auto 0 0 0 ;
+`
+
+export const GroupButtons = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 5px;
+    backgrund: red;
+    width: 100%;
+
+`
+export const ActionButton = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    padding: 3px;
+    margin-left: 3px;
+    cursor: pointer;
+    font-weight: 600;
+    border: 2px solid #fff;
+    background: ${props => props.color ? props.color : '#000'};
+    &:hover{
+        opacity: 0.8;
+    }
+`
+
+export const ContainerNumberList = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    padding: 10px;
+
 `

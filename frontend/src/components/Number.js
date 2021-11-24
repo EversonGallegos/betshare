@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { TicketNumber } from './styles/gamelist.styles'
 
-const Number = ({number, index, handleSelected, isSelected}) => {
+const Number = ({number, index, handleSelected, isSelected, color}) => {
     const [selected, setSelected] = useState(false)
     const handleClick = () => {
         handleSelected('i'+index.toString(), number, !selected)
@@ -12,7 +12,7 @@ const Number = ({number, index, handleSelected, isSelected}) => {
     }, [isSelected])
 
     return (
-        <TicketNumber key={index} onClick={handleClick} selected={selected}>
+        <TicketNumber key={index} onClick={handleClick} selected={selected} color={color}>
             {number}
         </TicketNumber>
     )

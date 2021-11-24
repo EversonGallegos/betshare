@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'
-import { GameName, 
+import React, {useState, useEffect, createContext} from 'react'
+import {
     ContainerGameItem, 
     GameNumbers, 
     ContainerGameInput, 
@@ -7,16 +7,22 @@ import { GameName,
     Label, 
     Input, 
     GroupInputInner, 
-    NumbersView, 
     MoneyView, 
     Button,
     CloseToggle,
-    GroupToggle,} from './styles/gamelist.styles'
-import Clover from './Clover'
-import TicketNumbers from './TicketNumbers'
+    GroupToggle,
+    GroupButtons} from './styles/gamelist.styles'
+
+import NumberList from './NumberList'
 import { service } from '../services/api'
+import GameContext from '../context/GameContext'
+import GameHeader from './GameHeader'
+import DrawButton from './DrawButton'
+import CleanerButton from './CleanerButton'
+import NumbersSquare from './NumbersSquare'
 
 const GameItem = ({color, name, options, total_numbers, total_queue}) => {
+    
     const min = options[0]['numbers']
     const max = options[options.length-1]['numbers']
     const [selecteds, setSelecteds] = useState()
@@ -25,7 +31,6 @@ const GameItem = ({color, name, options, total_numbers, total_queue}) => {
     const [quote_value, setQuoteValue] = useState(options[0]['quote_value'])
     const [quote_numbers, setQuoteNumbers] = useState(1)
     const [total_price, setTotalPrice] = useState(quote_value)
-
     const openToggle = () => {
         if(!toggle) setToggle(true)
     }
@@ -33,6 +38,15 @@ const GameItem = ({color, name, options, total_numbers, total_queue}) => {
     const closeToggle = () => {
         setToggle(false)
     }
+
+    const context = {
+        name: name,
+        color: color,
+        toggle: toggle,
+        total_numbers: total_numbers,
+        total_queue: total_queue,
+    }
+
     useEffect(() => {
         let tl_prc = quote_numbers * quote_value
         setTotalPrice(tl_prc.toFixed(2))
@@ -62,57 +76,55 @@ const GameItem = ({color, name, options, total_numbers, total_queue}) => {
     }
 
     return (
-        <ContainerGameItem onClick={openToggle} toggle={toggle}>
-            <GameName color={color}>
-                <Clover />
-                {name}
-            </GameName>
-            <TicketNumbers 
-                total_numbers={total_numbers} 
-                total_queue={total_queue} 
-                numbers={numbers}
-                setSelecteds={setSelecteds}/>            
-            { toggle ?
-            <ContainerGameInput>
-                <GroupGameInput>
-                    <Label htmlFor='numbers'>Quantidade de números:</Label>
-                    <GroupInputInner>
-                        <NumbersView color={color}>{numbers}</NumbersView>
+        <GameContext.Provider value={context}>
+            <ContainerGameItem onClick={openToggle} toggle={toggle}>
+                <GameHeader />
+                <NumberList
+                    total_numbers={total_numbers} 
+                    numbers={numbers}
+                    setSelecteds={setSelecteds}s/>            
+                { toggle ?
+                <ContainerGameInput>
+                    <GroupGameInput>
+                        <Label htmlFor='numbers'>Quantidade de números:</Label>
+                        <GroupInputInner>
+                            <NumbersSquare>{numbers}</NumbersSquare>
+                            <Input 
+                                type='range' 
+                                name='numbers' 
+                                value={numbers}
+                                onChange={(e) => handleNumbers(e)}
+                                min={min} 
+                                max={max} 
+                                />
+                            <MoneyView>R$ {quote_value}</MoneyView>
+                        </GroupInputInner>
+                    </GroupGameInput>
+                    <GroupGameInput>
+                        <Label htmlFor='quote_numbers'>Quantidade de cotas:</Label>
                         <Input 
-                            type='range' 
-                            name='numbers' 
-                            value={numbers}
-                            onChange={(e) => handleNumbers(e)}
-                            min={min} 
-                            max={max} 
-                            />
-                        <MoneyView>R$ {quote_value}</MoneyView>
-                    </GroupInputInner>
-                </GroupGameInput>
-                <GroupGameInput>
-                    <Label htmlFor='quote_numbers'>Quantidade de cotas:</Label>
-                    <Input 
-                        type='number' 
-                        name='quote_numbers'
-                        value={quote_numbers}
-                        onChange={handleQuoteNumbers}/>
-                </GroupGameInput>
-                <GroupGameInput>
-                    <Label htmlFor='total_price'>Preço total:</Label>
-                    <MoneyView color={color}>R$ {total_price}</MoneyView>
-                </GroupGameInput>
-                <GroupToggle>
-                    <CloseToggle color={color} onClick={closeToggle}>&#5169;</CloseToggle>
-                    <Button color={color} onClick={handleSubmit}>Adicionar aposta</Button>
-                </GroupToggle>
+                            type='number' 
+                            name='quote_numbers'
+                            value={quote_numbers}
+                            onChange={handleQuoteNumbers}/>
+                    </GroupGameInput>
+                    <GroupGameInput>
+                        <Label htmlFor='total_price'>Preço total:</Label>
+                        <MoneyView>R$ {total_price}</MoneyView>
+                    </GroupGameInput>
+                    <GroupToggle>
+                        <CloseToggle color={color} onClick={closeToggle}>&#5169;</CloseToggle>
+                        <Button color={color} onClick={handleSubmit}>Adicionar aposta</Button>
+                    </GroupToggle>
                 </ContainerGameInput>
-            :
-            <GroupToggle>
-                <GameNumbers color={color}><p>escolha entre {min} e {max} números</p></GameNumbers>
-            </GroupToggle>
-            
-            } 
-        </ContainerGameItem>
+                :
+                <GroupToggle>
+                    <GameNumbers color={color}><p>escolha entre {min} e {max} números</p></GameNumbers>
+                </GroupToggle>
+                
+                } 
+            </ContainerGameItem>
+        </GameContext.Provider>
     )
 }
 
