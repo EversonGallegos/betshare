@@ -8,7 +8,7 @@ export const ContainerGameList =  styled.div`
     height: 100%;
     width: 100%;
     max-width: 900px;
-    font-family: 'Futura Book';
+    margin-top: 40px;
 `
 
 export const ContainerGameItem = styled.div`
@@ -17,7 +17,8 @@ export const ContainerGameItem = styled.div`
     min-width: 320px;
     background: #FFFCD5;
     flex-direction: column;
-    margin: 5px;
+    margin: 5px; 
+    max-height: ${props => props.toggle ? '100%' : '300px'};
     &:hover{
         background: ${props => props.toggle ? '#FFFCD5' : '#F8F1D1'};
         cursor: ${props => props.toggle ? 'initial' : 'pointer'};
@@ -110,12 +111,12 @@ export const GroupGameInput =  styled.div`
     border-top: 5px solid #FFF;
     input[type='number']{
         padding: 5px;
-        margin-left: 10px;
+        margin: 0 10px;
         text-align: center;
         font-weight: 600;
         color: #F6941E;
         align-self: center;
-        max-width: 40%;
+        max-width: 33%;
         background: #fff;
     }
     &:nth-child(1){
@@ -131,7 +132,11 @@ export const Input = styled.input`
     border: 2px solid #F6941E;
     outline: none;
 `
-
+export const TotalQuotes = styled.p`
+    font-family: 'Futura Bold';
+    color: #F6941E;
+    align-self: center;
+`
 export const Label = styled.label`
     font-size: 0.9rem;
     color: #F6941E;
@@ -229,8 +234,17 @@ export const GroupButtons = styled.div`
     margin-bottom: -15px;
     backgrund: red;
     width: 100%;
-
+    
 `
+
+export const SuggestText = styled.p`
+    font-size: 0.8rem;
+    text-align: center;
+    flex: 1;
+    align-self: center;
+    color: #F6941E;
+`
+
 export const ActionButton = styled.div`
     display: flex;
     justify-content: center;
@@ -255,3 +269,4 @@ export const ContainerNumberList = styled.div`
     padding: 10px;
 
 `
+

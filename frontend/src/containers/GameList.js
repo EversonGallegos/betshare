@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import ConfirmScreen from '../components/ConfirmScreen'
 import GameItem from '../components/GameItem'
 import { ContainerGameList, Inner } from '../components/styles/gamelist.styles'
 import { service } from '../services/api'

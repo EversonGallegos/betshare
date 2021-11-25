@@ -6,13 +6,13 @@ export const ConfirmScreenContainer = styled.div`
     height: 300px;
     width: 300px;
     position: fixed;
-    top: calc(50% - 120px);
+    top: calc(50% - 170px);
     left: calc(50% - 140px);
     padding: 10px;
+    border: 2px solid #fff;
     color: #FFF;
     background: ${props => props.color? props.color : '#005DA8'};
-    z-index: 10;
-    border: 5px solid #;
+    z-index: 3;
 `
 
 export const Title = styled.h1`
@@ -33,11 +33,16 @@ export const GroupInfo = styled.div`
 export const Label = styled.p`
     margin-right: 5px;
     font-size: 0.9rem;
+    min-width: 60%;
 `
 export const Value = styled.p`
     font-family: 'Futura Bold';
     font-size: 0.8rem;
 
+`
+export const TotalQuotes = styled.p`
+    font-size: 0.8rem;
+    font-family: 'Futura Bold';
 `
 
 export const GroupSuggest = styled.div`
@@ -45,7 +50,9 @@ export const GroupSuggest = styled.div`
     flex-direction: column;
     text-align: center;
     margin-top: 10px;
+    font-weight: 500;
     p:nth-child(1){
+        font-weight: 600;
         font-size: 0.8rem;
         margin-bottom: 3px;
     }
@@ -83,11 +90,28 @@ export const CancelButton = styled.div`
 `
 
 export const BackgroundFill = styled.div`
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
     background: #000;
     opacity: 0.6;
+    overflow: hidden;
+`
+
+export const GroupTerms = styled.div`
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin-top: auto;
+`
+
+export const CheckTerms = styled.input`  
+    padding: 5px;
+`
+
+export const LabelTerms = styled.label`
+    margin-left: 5px;
+    font-size: 0.8rem;
 `

@@ -8,8 +8,13 @@ import { ConfirmScreenContainer,
         GroupButtons,
         GroupSuggest,
         ConfirmButton,
-        CancelButton} from './styles/confirmscreen.styles'
+        CancelButton,
+        GroupTerms,
+        CheckTerms,
+        LabelTerms,
+        TotalQuotes} from './styles/confirmscreen.styles'
 
+    
 const ConfirmScreen = ({name, 
                     numbers, 
                     quote_value, 
@@ -17,10 +22,14 @@ const ConfirmScreen = ({name,
                     total_price,
                     color,
                     selecteds,
-                    handleCancel}) => {
+                    handleCancel,
+                    handleConfirm}) => {
+
+    const getSuggest = selecteds.split(',').sort().join(',')
+
     return (
         <ConfirmScreenContainer color={color}>
-            <Title>Confirma a aposta?</Title>
+            <Title>Confirme sua aposta</Title>
             <GameName>{name}</GameName>
             <GroupInfo>
                 <Label>Quantidade de números:</Label>
@@ -33,18 +42,27 @@ const ConfirmScreen = ({name,
             <GroupInfo>
                 <Label>Quantidade de cotas:</Label>
                 <Value>{quote_numbers}</Value>
+                <TotalQuotes>/250</TotalQuotes>
+            </GroupInfo>
+            <GroupInfo>
+                <Label>Participação no bilhete*:</Label>
+                <Value>{((quote_numbers/250)*100)} %</Value>
             </GroupInfo>
             <GroupInfo>
                 <Label>Preço total:</Label>
                 <Value>{total_price}</Value>
             </GroupInfo>
             <GroupSuggest>
-                <Label>Sugestões:</Label>
-                <Value>{selecteds}</Value>
+                <Label>Números sugeridos:</Label>
+                <Value>{getSuggest}</Value>
             </GroupSuggest>
+            <GroupTerms>
+                <CheckTerms name='checkterms' type='checkbox' checked/>
+                <LabelTerms htmlFor='checkterms'>aceito os termos da política de apostas *</LabelTerms>
+            </GroupTerms>
             <GroupButtons>
-                <ConfirmButton>confirmar</ConfirmButton>
-                <CancelButton onClick={handleCancel}>cancelar</CancelButton>
+                <ConfirmButton onClick={handleConfirm}>confirmar</ConfirmButton>
+                <CancelButton onClick={handleCancel}>voltar</CancelButton>
             </GroupButtons>
         </ConfirmScreenContainer>
     )

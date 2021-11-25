@@ -10,8 +10,9 @@ import {
     MoneyView, 
     Button,
     CloseToggle,
-    GroupToggle} from './styles/gamelist.styles'
-import{ BackgroundFill } from './styles/confirmscreen.styles'
+    GroupToggle,
+    TotalQuotes} from './styles/gamelist.styles'
+import{ BackgroundFill} from './styles/confirmscreen.styles'
 import ConfirmScreen from './ConfirmScreen'
 import NumberList from './NumberList'
 import { service } from '../services/api'
@@ -65,13 +66,18 @@ const GameItem = ({color, name, options, total_numbers, total_queue}) => {
         }
     }
 
-    const handleSubmit = async () => {
-        /*const response = await service.sendRequest(
+    const handleSubmit = () => {
+        setConfirmScreen(!confirmScreen)
+    }
+
+    const handleConfirm = async () => {
+        const response = await service.sendRequest(
                                         options[numbers-min].id, 
                                         quote_numbers,
                                         selecteds)
-        */
-        setConfirmScreen(!confirmScreen)
+        setToggle(false)
+        handleSubmit()
+        return response
     }
 
     return (
@@ -81,7 +87,8 @@ const GameItem = ({color, name, options, total_numbers, total_queue}) => {
                 <NumberList
                     total_numbers={total_numbers} 
                     numbers={numbers}
-                    setSelecteds={setSelecteds}s/>            
+                    setSelecteds={setSelecteds}
+                    confirm={confirmScreen}/>            
                 { toggle ?
                 <ContainerGameInput>
                     <GroupGameInput>
@@ -106,6 +113,7 @@ const GameItem = ({color, name, options, total_numbers, total_queue}) => {
                             name='quote_numbers'
                             value={quote_numbers}
                             onChange={handleQuoteNumbers}/>
+                        <TotalQuotes>/250</TotalQuotes>
                     </GroupGameInput>
                     <GroupGameInput>
                         <Label htmlFor='total_price'>Preço total:</Label>
@@ -134,6 +142,7 @@ const GameItem = ({color, name, options, total_numbers, total_queue}) => {
                 color={color}
                 selecteds={selecteds}
                 handleCancel={handleSubmit}
+                handleConfirm={handleConfirm}
             />
             <BackgroundFill />
             </>

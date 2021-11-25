@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import Number from './Number'
-import { TicketNumbersStyled, GroupButtons, ContainerNumberList} from './styles/gamelist.styles'
+import { TicketNumbersStyled, 
+        GroupButtons, 
+        ContainerNumberList,
+        SuggestText} from './styles/gamelist.styles'
 import DrawButton from './DrawButton'
 import CleanerButton from './CleanerButton'
 import GameContext from '../context/GameContext'
 
 
-const NumberList = ({total_numbers, numbers, setSelecteds}) => {
+const NumberList = ({total_numbers, numbers, setSelecteds, confirm}) => {
     var ticketnumbers = []
     const [selected, setSelected] = useState({})
     
@@ -50,6 +53,12 @@ const NumberList = ({total_numbers, numbers, setSelecteds}) => {
         setSelected(numbersdraw)
     }
 
+    useEffect(() => {
+        if(confirm){
+            handleDraw()
+        }
+    }, [confirm])
+
     const handleCleaner = () => {
         setSelected({})
     }
@@ -86,7 +95,9 @@ const NumberList = ({total_numbers, numbers, setSelecteds}) => {
                     />)
                 }
                 </TicketNumbersStyled>
-                {toggle && <GroupButtons>
+                {toggle &&
+                <GroupButtons>
+                    <SuggestText>sugira seus números da sorte</SuggestText>
                     <DrawButton onClick={handleDraw}/>
                     <CleanerButton onClick={handleCleaner}/>
                 </GroupButtons>}

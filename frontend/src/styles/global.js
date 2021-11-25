@@ -26,7 +26,11 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
     font-family: 'Futura Light', 'Poppins', sans-serif;
   }
+
   body{
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background: #3EB7AE;
