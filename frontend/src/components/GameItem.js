@@ -1,4 +1,4 @@
-import React, {useState, useEffect, createContext} from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     ContainerGameItem, 
     GameNumbers, 
@@ -10,21 +10,19 @@ import {
     MoneyView, 
     Button,
     CloseToggle,
-    GroupToggle,
-    GroupButtons} from './styles/gamelist.styles'
-
+    GroupToggle} from './styles/gamelist.styles'
+import{ BackgroundFill } from './styles/confirmscreen.styles'
+import ConfirmScreen from './ConfirmScreen'
 import NumberList from './NumberList'
 import { service } from '../services/api'
 import GameContext from '../context/GameContext'
 import GameHeader from './GameHeader'
-import DrawButton from './DrawButton'
-import CleanerButton from './CleanerButton'
 import NumbersSquare from './NumbersSquare'
 
 const GameItem = ({color, name, options, total_numbers, total_queue}) => {
-    
     const min = options[0]['numbers']
     const max = options[options.length-1]['numbers']
+    const [confirmScreen, setConfirmScreen] = useState(false)
     const [selecteds, setSelecteds] = useState()
     const [toggle, setToggle] = useState(false)
     const [numbers, setNumbers] = useState(min)
@@ -68,11 +66,12 @@ const GameItem = ({color, name, options, total_numbers, total_queue}) => {
     }
 
     const handleSubmit = async () => {
-        const response = await service.sendRequest(
+        /*const response = await service.sendRequest(
                                         options[numbers-min].id, 
                                         quote_numbers,
                                         selecteds)
-        console.log(response)
+        */
+        setConfirmScreen(!confirmScreen)
     }
 
     return (
@@ -124,6 +123,21 @@ const GameItem = ({color, name, options, total_numbers, total_queue}) => {
                 
                 } 
             </ContainerGameItem>
+            {confirmScreen && 
+            <>
+            <ConfirmScreen 
+                name={name}
+                numbers={numbers}
+                quote_value={quote_value}
+                quote_numbers={quote_numbers} 
+                total_price={total_price}
+                color={color}
+                selecteds={selecteds}
+                handleCancel={handleSubmit}
+            />
+            <BackgroundFill />
+            </>
+            }
         </GameContext.Provider>
     )
 }

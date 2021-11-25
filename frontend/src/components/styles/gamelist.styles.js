@@ -5,7 +5,7 @@ export const ContainerGameList =  styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    height: calc(100% - 60px);
+    height: 100%;
     width: 100%;
     max-width: 900px;
     font-family: 'Futura Book';
@@ -52,7 +52,6 @@ export const GameNumbers = styled.div`
     color: white;
     font-family: 'Futura Bold';
     display: flex;
-    //flex: 1;
     background: ${props => props.color ? props.color : '#F6941E'};
     justify-content: center;
     align-items: flex-end;
@@ -62,12 +61,11 @@ export const GameNumbers = styled.div`
 
 export const Inner = styled.div`
     width: 100%;
-    height: 100%;
+    height: 100vh;
     max-witdh: 900px;
     display: flex;
     justify-content: center;
     padding-top: 2px;
-    background: linear-gradient(45deg, #1D8DB3 0%, #3EB7AE 100%);
 `
 
 export const TicketNumbersStyled = styled.div`
@@ -76,7 +74,6 @@ export const TicketNumbersStyled = styled.div`
     grid-template-columns: repeat(${props => props.total_queue ? props.total_queue : 10}, 1fr);
     justify-items: center;
     border-top: 5px solid white;
-    max-height: 175px;
     padding-top: 10px;
 `
 
@@ -151,12 +148,12 @@ export const GroupInputInner = styled.div`
 
 export const NumbersView = styled.div`
     display: flex;
-    height: 23px;
-    width: 23px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
     font-weight: 600;
     justify-content: center;
     align-items: center;
-    border: 4px solid #FFF;
     margin-right: 10px;
     background: ${props => props.color ? props.color : '#FFF'};
     color: ${props => props.color ? '#FFF' : '#000'};
@@ -228,7 +225,8 @@ export const GroupToggle = styled.div`
 export const GroupButtons = styled.div`
     display: flex;
     justify-content: flex-end;
-    padding-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: -15px;
     backgrund: red;
     width: 100%;
 
