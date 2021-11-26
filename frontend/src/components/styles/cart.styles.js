@@ -73,7 +73,7 @@ export const ConfirmButton = styled.div`
 
 `
 
-export const RemoveButton = styled.div` 
+export const RemoveButton = styled.button` 
     color: red;
     font-family: courier;
     cursor: pointer;

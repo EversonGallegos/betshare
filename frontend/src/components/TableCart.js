@@ -6,19 +6,32 @@ import TableRow from './TableRow'
 const TableCart = () => {
     const [cart, setCart] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
-    
+
+    const handleListCart = () => {
+        service.getCart(setCart)   
+    }
+
+    const handleDelete = (pk) => {
+        service.deleteRequest(pk)
+        setCart(cart.filter(item => item.id !== pk))
+    }
+
     useEffect(() => {
-        service.getCart(setCart)
-        let value = 0
-        cart.map(item => {
-            value +=  item['price']
-        })
-        setTotalPrice(value.toFixed(2))
+        handleListCart()
     }, [])
 
-    const handleDelete = (id) => {
-        service.deleteRequest(id)
-    }
+    useEffect(() => {
+        console.log(cart)
+        const setPrice = () => {
+            let value = 0
+            cart.map(item => {
+                value +=  item['price']
+            })
+            setTotalPrice(value.toFixed(2))
+        }
+        setPrice()
+    }, [cart])
+
     
     return (
         <ContainerCart>
@@ -37,7 +50,7 @@ const TableCart = () => {
                     </THEADTableCart>
                     <TBODYTableCart>
                         {cart.map((item) =>
-                            <TableRow item={item} key={item['id']} onDelete={handleDelete}  />
+                            <TableRow item={item} onClick={handleDelete} />
                         )}
                     </TBODYTableCart>
                 </Table>

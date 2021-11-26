@@ -1,10 +1,15 @@
 import styled from 'styled-components/macro'
 
 export const LogoStyled = styled.h1`
-    font-size: 1.3rem;
-    color: white;
-    font-family: 'Futura Bold';
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    a{
+        font-size: 1.3rem;
+        color: white;
+        font-family: 'Futura Bold';
+        cursor: pointer;
+        text-decoration: none;
+    }
 `
 export const ContainerHeader = styled.div`
     width: 100%;

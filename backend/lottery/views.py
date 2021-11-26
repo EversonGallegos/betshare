@@ -153,7 +153,8 @@ class Cart(ViewSet):
     def destroy(self, request, pk):
         user = request.user
         try:
-            betrequest = Request.objects.filter(user=user).get(pk=pk)
+            betrequest = Request.objects.get(pk=pk)
+            print(betrequest)
             betrequest.delete()
             return Response(status=status.HTTP_200_OK)
         except:

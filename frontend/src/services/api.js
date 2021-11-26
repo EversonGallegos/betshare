@@ -51,4 +51,4 @@ export const service = {
         }).then(result => console.log(result.status))
     },
 
-}
+}   
