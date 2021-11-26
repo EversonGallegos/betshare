@@ -47,3 +47,20 @@ class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = '__all__'
+
+class GameName(serializers.ModelSerializer):
+    class Meta:
+        model = Game
+        fields = ('name',)
+
+class QuoteValue(serializers.ModelSerializer):
+    game = GameName()
+    class Meta:
+        model = Option
+        fields = ('game','quote_value','numbers')
+
+class CartSerializer(serializers.ModelSerializer):
+    option = QuoteValue()
+    class Meta:
+        model = Request
+        fields = ('id', 'option', 'quotes', 'price')

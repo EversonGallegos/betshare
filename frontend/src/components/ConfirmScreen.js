@@ -42,7 +42,7 @@ const ConfirmScreen = ({name,
             <GroupInfo>
                 <Label>Quantidade de cotas:</Label>
                 <Value>{quote_numbers}</Value>
-                <TotalQuotes>/250</TotalQuotes>
+                <TotalQuotes>&nbsp;de&nbsp;250</TotalQuotes>
             </GroupInfo>
             <GroupInfo>
                 <Label>Participação no bilhete*:</Label>

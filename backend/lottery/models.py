@@ -18,7 +18,7 @@ class RequestStatus(models.Choices):
 
 class Request(models.Model):
     user = models.ForeignKey(User, on_delete=DO_NOTHING)
-    option = models.ForeignKey(Option, on_delete=DO_NOTHING)
+    option = models.ForeignKey(Option, on_delete=DO_NOTHING, related_name='option')
     quotes = models.IntegerField()
     price =  models.FloatField(null=True, blank=True)
     suggested_numbers = models.CharField(max_length=250)

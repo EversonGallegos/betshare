@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render
+from rest_framework.views import APIView
 # Create your views here.
 from game.models import Game
 from rest_framework.decorators import permission_classes
@@ -8,6 +9,7 @@ from django.contrib.auth.models import User
 
 from .serializers import (
                         BetSerializer,
+                        CartSerializer,
                         ContestSerializer,
                         GameSerializer,
                         RequestSerializer,
@@ -138,3 +140,21 @@ class TicketView(ViewSet):
         return Response(
                 {'error':'ticket not found'}, 
                 status=status.HTTP_404_NOT_FOUND)
+
+@permission_classes([IsAuthenticated])
+class Cart(ViewSet):
+
+    def list(self, request):
+        user = request.user
+        cart = Request.objects.filter(user=user, status='open')
+        serializer = CartSerializer(cart, many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk):
+        user = request.user
+        try:
+            betrequest = Request.objects.filter(user=user).get(pk=pk)
+            betrequest.delete()
+            return Response(status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
