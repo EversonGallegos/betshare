@@ -1,5 +1,15 @@
 import React, {useState, useEffect} from 'react'
-import { ConfirmButton, ContainerCart, ContainerFooter, ContainerTable, RemoveButton, Table, TBODYTableCart, TDTableCart, THEADTableCart, THTableCart, TitleCart, TotalValue, TRTableCart } from '../components/styles/cart.styles'
+import { ConfirmButton, 
+        ContainerCart, 
+        ContainerFooter, 
+        ContainerTable, 
+        Table, 
+        TBODYTableCart, 
+        THEADTableCart, 
+        THTableCart, 
+        TitleCart, 
+        TotalValue, 
+        TRTableCart } from '../components/styles/cart.styles'
 import { service } from '../services/api'
 import TableRow from './TableRow'
 
@@ -7,13 +17,25 @@ const TableCart = () => {
     const [cart, setCart] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
 
-    const handleListCart = () => {
-        service.getCart(setCart)   
+    const handleListCart = async () => {
+        const ct = await service.getCart()   
+        setCart(ct)
+    }
+    
+    const handleConfirmPayment = async () => {
+        const payment =  await service.setPayment()
+        if(payment === 200){
+            setCart([])
+        }
     }
 
-    const handleDelete = (pk) => {
-        service.deleteRequest(pk)
-        setCart(cart.filter(item => item.id !== pk))
+    const handleDelete = async (pk) => {
+        const status = await service.deleteRequest(pk)
+        if(status === 200){
+            setCart(cart.filter(item => item.id !== pk))
+        }else{
+            alert('Houve um erro na exclusão da aposta.')
+        }
     }
 
     useEffect(() => {
@@ -21,7 +43,6 @@ const TableCart = () => {
     }, [])
 
     useEffect(() => {
-        console.log(cart)
         const setPrice = () => {
             let value = 0
             cart.map(item => {
@@ -57,7 +78,7 @@ const TableCart = () => {
             </ContainerTable>
             <ContainerFooter>
                 <TotalValue>Total: {totalPrice}</TotalValue>
-                <ConfirmButton>Finalizar</ConfirmButton>      
+                <ConfirmButton onClick={handleConfirmPayment}>Finalizar</ConfirmButton>      
             </ContainerFooter>
         </ContainerCart>
     )

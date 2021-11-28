@@ -42,3 +42,33 @@ export const Inner =  styled.div`
     height: 100%;
     width: 90%
 `
+
+export const ContainerCartLink = styled.div`
+    a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        margin-right: 10px;
+        font-weight: 600;
+        font-family: 'Futura Bold';
+        text-decoration: none
+    }
+
+`
+
+export const ViewCountCart = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 20px;
+    font-family: 'Futura Bold';
+    color: #fff;
+    border-radius: 50%;
+    background: red;
+    position: relative;
+    z-index: 2;
+    top: 10px;
+    left: -8%;
+`

@@ -49,6 +49,10 @@ export const TBODYTableCart = styled.tbody`
 export const THTableCart = styled.th`
     font-family: 'Futura Bold';
     padding: 0 10px;
+    border: 1px solid #BBB;
+    &:last-of-type{
+        border: none;
+    }
 
 `
 
@@ -62,7 +66,6 @@ export const TDTableCart = styled.td`
 `
 
 export const ConfirmButton = styled.div`
-
     padding: 5px 15px;
     color: #FFF;
     background: orange;
@@ -70,7 +73,10 @@ export const ConfirmButton = styled.div`
     align-items: center;
     align-self: flex-end;
     margin: 10px;
-
+    cursor: pointer;
+    &:hover{
+        opacity: 0.8;
+    }
 `
 
 export const RemoveButton = styled.button` 
@@ -79,7 +85,18 @@ export const RemoveButton = styled.button`
     cursor: pointer;
     font-weight: 700;
     padding: 0 10px;
+    border: none;
+    background: #fff;
     &:hover{
         background: #DDD;
     }
+`
+
+export const GameName = styled.div`
+    font-family: 'Futura Bold';
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `

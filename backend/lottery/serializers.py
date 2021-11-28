@@ -1,5 +1,5 @@
 from django.db.models import fields
-from rest_framework import serializers
+from rest_framework import serializers, validators
 from lottery.models import (QuoteManager, 
                             Bet, 
                             Request,
@@ -23,35 +23,37 @@ class GameSerializer(serializers.ModelSerializer):
         model = Game
         fields = ('name', 'color', 'is_active', 'options', 'total_numbers', 'total_queues')
 
-class QuoteManagerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = QuoteManager
-        fields = ('ticket','request','transaction','quotes')
-
 class RequestSerializer(serializers.ModelSerializer):
-    quote_manager = QuoteManagerSerializer()
     class Meta:
         model = Request
-        fields = ('user', 'option', 'quotes', 'price', 'status', 'quote_manager')
+        fields = ('id', 'user', 'option', 'quotes', 'price', 'status')
     
 class sendRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
         fields = ('user', 'option', 'quotes', 'suggested_numbers')
+
 class BetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bet
         fields = ('ticket', 'contest', 'numbers', 'status')
 
-class TicketSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Ticket
-        fields = '__all__'
-
 class GameName(serializers.ModelSerializer):
     class Meta:
         model = Game
         fields = ('name',)
+
+class OptionTickets(serializers.ModelSerializer):
+    game = GameName()
+    class Meta:
+        model = Option
+        fields = ('game', 'numbers', 'price', 'chance', 'quote_value')
+
+class TicketSerializer(serializers.ModelSerializer):
+    option = OptionTickets()
+    class Meta:
+        model = Ticket
+        fields = ('id', 'option', 'status', 'quotes_sold')
 
 class QuoteValue(serializers.ModelSerializer):
     game = GameName()
@@ -64,3 +66,10 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
         fields = ('id', 'option', 'quotes', 'price')
+
+class QuoteManagerSerializer(serializers.ModelSerializer):
+    ticket = TicketSerializer()
+    request = RequestSerializer()
+    class Meta:
+        model = QuoteManager
+        fields = ('ticket','request','transaction','quotes')

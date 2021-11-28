@@ -1,4 +1,9 @@
-import { URL, endpoint_games, endpoint_send_request, endpoint_cart } from "../constants/globals"
+import { URL, 
+    endpoint_games, 
+    endpoint_send_request, 
+    endpoint_cart,
+    endpoint_tickets, 
+    endpoint_quote_manager} from "../constants/globals"
 
 const token = 'c556349da55f68e59805f7ce0f2558bea2036270'
 
@@ -31,15 +36,15 @@ export const service = {
         return request
     },
 
-    getCart: async (hook) =>{
+    getCart: async () =>{
         const data = await fetch(URL+endpoint_cart, {
             headers: {
                 'Authorization': `token ${token}`,
                 'Content-Type': 'application/json'
             }
         }).then(response => response.json())
-        const result = await data
-        hook(result)
+        
+        return data
     },
 
     deleteRequest: async (id) =>{
@@ -48,7 +53,35 @@ export const service = {
             headers: {
                 'Authorization': `token ${token}`,
             }
-        }).then(result => console.log(result.status))
+        }).then(result => result)
+        return data.status
     },
 
+    getLengthCart: async () => {
+        const data = await fetch(URL+endpoint_cart+'length/',{
+            headers: {
+                'Authorization': `token ${token}`,
+            }
+        }).then(result => result.json())
+        return data
+    },
+    setPayment: async () => {
+        const request = await fetch(URL+endpoint_cart,{
+            method: 'post',
+            headers: {
+                'Authorization': `token ${token}`,
+            }
+        }).then(result => result)
+        return request.status
+    },
+    getQuoteManager: async () => {
+        const data = await fetch(URL+endpoint_quote_manager, {
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+        console.log(data)
+        return data
+    },
 }   

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (Cart, GamesView,
+from .views import (Cart, CartLength, GamesView, QuoteManagerView,
                     RequestView,
                     BetView,
                     ContestView,
@@ -48,10 +48,15 @@ urlpatterns = [
         })),
     path('profile/cart/',
         Cart.as_view({
-            'get':'list'
+            'get':'list',
+            'post':'pay'
         })),
     path('profile/cart/<int:pk>/',
         Cart.as_view({
             'delete':'destroy'
         })),
+    path('profile/cart/length/',
+        CartLength.as_view()),
+    path('profile/quote_manager/',
+        QuoteManagerView.as_view()),
 ]

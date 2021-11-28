@@ -1,4 +1,5 @@
 import React from 'react'
+import CartLink from '../components/CartLink'
 import LoginButton from '../components/LoginButton'
 import Logo from '../components/Logo'
 import LogoutButton from '../components/LogoutButton'
@@ -9,6 +10,7 @@ const Header = () => {
         <ContainerHeader>
             <Inner>
                 <Logo />
+                <CartLink />
                 <ContainerAuth>
                     <LoginButton />
                     <LogoutButton />

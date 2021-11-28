@@ -12,6 +12,7 @@ from .serializers import (
                         CartSerializer,
                         ContestSerializer,
                         GameSerializer,
+                        QuoteManagerSerializer,
                         RequestSerializer,
                         TicketSerializer,
                         sendRequestSerializer)
@@ -51,7 +52,6 @@ class RequestView(ViewSet):
     def list(self, request):
         req = Request.objects.filter(user = request.user)
         serializer = RequestSerializer(req, many=True)
-        print(serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def retrieve(self, request, pk):
@@ -108,7 +108,7 @@ class BetView(ViewSet):
         serializer = BetSerializer(bets, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 class TicketView(ViewSet):    
     def retrieve(self, request, pk):
         requests = Request.objects.filter(user = request.user)
@@ -129,7 +129,8 @@ class TicketView(ViewSet):
         for r in requests.all():
             try:
                 qm = QuoteManager.objects.get(request=r)
-                tickets.append(qm.ticket)
+                if(qm.ticket not in tickets):
+                    tickets.append(qm.ticket)
             except:
                 continue
         if(len(tickets) > 0):
@@ -143,7 +144,6 @@ class TicketView(ViewSet):
 
 @permission_classes([IsAuthenticated])
 class Cart(ViewSet):
-
     def list(self, request):
         user = request.user
         cart = Request.objects.filter(user=user, status='open')
@@ -153,9 +153,40 @@ class Cart(ViewSet):
     def destroy(self, request, pk):
         user = request.user
         try:
-            betrequest = Request.objects.get(pk=pk)
+            betrequest = Request.objects.get(user=user, pk=pk)
             print(betrequest)
             betrequest.delete()
             return Response(status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def pay(self, request):
+        user = request.user
+        cart = Request.objects.filter(user=user, status='open')
+        for req in cart:
+            req.status = 'paid'
+            req.save()
+        if(len(cart) > 0):
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+
+@permission_classes([IsAuthenticated])
+class CartLength(APIView):
+    def get(self, request):
+        user = request.user
+        cartlist = Request.objects.filter(user=user, status='open')
+        length = len(cartlist)
+        return Response(length)
+
+@permission_classes([IsAuthenticated])
+class QuoteManagerView(APIView):
+    def get(self, request):
+        user = request.user
+        manager = QuoteManager.objects.filter(request__user=user)
+        serializer = QuoteManagerSerializer(manager, many=True)
+        if(len(serializer.data)>0):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status.HTTP_404_NOT_FOUND)

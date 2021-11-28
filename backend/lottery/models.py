@@ -17,7 +17,7 @@ class RequestStatus(models.Choices):
     FINISHED = 'finished'
 
 class Request(models.Model):
-    user = models.ForeignKey(User, on_delete=DO_NOTHING)
+    user = models.ForeignKey(User, on_delete=DO_NOTHING, related_name='userrequest')
     option = models.ForeignKey(Option, on_delete=DO_NOTHING, related_name='option')
     quotes = models.IntegerField()
     price =  models.FloatField(null=True, blank=True)
@@ -50,9 +50,9 @@ class TicketStatus(models.Choices):
     FINISHED = 'finished'
 
 class Ticket(models.Model):
-    option = ForeignKey(Option, on_delete=CASCADE)
+    option = ForeignKey(Option, on_delete=CASCADE, related_name='ticketoption')
     status = models.CharField(max_length=50, default=TicketStatus.OPEN)
-    requests = models.ManyToManyField(Request, through='QuoteManager', null=True, default=None)
+    requests = models.ManyToManyField(Request, through='QuoteManager', null=True, default=None, related_name='ticketrequests')
     quotes_sold = models.IntegerField(
         validators=[
             MaxValueValidator(MAX_QUOTES),
