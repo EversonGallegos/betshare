@@ -19,28 +19,35 @@ const TicketList = () => {
         return getTickets()
     }, [])
 
-    console.log(tickets)
-
     const handleTickets = (data) => {
         let ticket = []
- 
-        data.map((item) =>{
-            let j = 0
-            for(let i = 0; i < ticket.length; i++){
-                if(item['ticket']['id'] === ticket[i]['ticket']['id']){
-                    ticket[i]['request']['quotes'] += item['request']['quotes']
-                    ticket[i]['request']['price'] += item['request']['price']
-                    ticket[i]['quotes'] += item['quotes']
-                    j++
-                }else if(i === ticket.length-1 && j === 0){
-                    ticket.push(item)
+        if (data.length > 0) {
+            let isUnique
+            data.map(
+                (item) => {
+                    isUnique = true
+                    if(ticket.length > 0){
+                        for(let i = 0; i < ticket.length; i++){
+                            if(item['ticket']['id'] === ticket[i]['ticket']['id']){
+                                if(!Array.isArray(ticket[i]['request'])){
+                                    let req = ticket[i]['request']
+                                    ticket[i]['request'] = []
+                                    ticket[i]['request'].push(req)
+                                }
+                                ticket[i]['request'].push(item['request'])
+                                ticket[i]['quotes'] += item['quotes']
+                                isUnique = false
+                            }
+                        }
+                        if(isUnique) ticket.push(item)
+                    }else{
+                        ticket.push(item)
+                    }
                 }
-            }
-            if(ticket.length === 0){
-                ticket.push(item)
-            }
-        })
+            )
+        }
         setTickets(ticket)
+        console.log(ticket)
     }
 
     return (
@@ -52,6 +59,7 @@ const TicketList = () => {
             <Table>
                 <ContainerTableRowHead>
                     <TableHeadItem>Jogo</TableHeadItem>
+                    <TableHeadItem>Qnt de números</TableHeadItem>
                     <TableHeadItem>Cotas compradas</TableHeadItem>
                     <TableHeadItem>Progresso</TableHeadItem>
                     <TableHeadItem>Status</TableHeadItem>
@@ -60,7 +68,8 @@ const TicketList = () => {
                     <TicketItem 
                         id={item['ticket']['id']}
                         name={item['ticket']['option']['game']['name']}
-                        numbers={item['quotes']}
+                        numbers={item['ticket']['option']['numbers']}
+                        quotes={item['quotes']}
                         porcent={(item['ticket']['quotes_sold']/250)*100}
                         status={item['ticket']['status']}
                     />)
