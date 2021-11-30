@@ -81,20 +81,12 @@ class ContestView(ViewSet):
 @permission_classes([IsAuthenticated])       
 class BetView(ViewSet):
     def retrieve(self, request, pk):
-        requests = Request.objects.filter(user = request.user)
-        bet = None
-        for r in requests.all():
-            try:
-                qm = QuoteManager.objects.get(request=r)
-                ticket = qm.ticket
-                bet = Bet.objects.get(id=pk, ticket__id=ticket.id)
-            except:
-                continue
-        if(not bet is None):
+        try:
+            bet = Bet.objects.get(ticket__id=pk)
             serializer = BetSerializer(bet)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response({'error':'Bet not found'}, status=status.HTTP_404_NOT_FOUND)
+        except:
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
     def list(self, request):
         requests = Request.objects.filter(user = request.user)
         bets = []

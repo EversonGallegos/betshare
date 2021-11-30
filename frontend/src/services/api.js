@@ -3,7 +3,8 @@ import { URL,
     endpoint_send_request, 
     endpoint_cart,
     endpoint_tickets, 
-    endpoint_quote_manager} from "../constants/globals"
+    endpoint_quote_manager,
+    endpoint_bet} from "../constants/globals"
 
 const token = 'c556349da55f68e59805f7ce0f2558bea2036270'
 
@@ -65,6 +66,7 @@ export const service = {
         }).then(result => result.json())
         return data
     },
+
     setPayment: async () => {
         const request = await fetch(URL+endpoint_cart,{
             method: 'post',
@@ -74,8 +76,9 @@ export const service = {
         }).then(result => result)
         return request.status
     },
+
     getQuoteManager: async () => {
-        let ticket = []
+        let tickets = []
         const data = await fetch(URL+endpoint_quote_manager, {
             headers: {
                 'Authorization': `token ${token}`,
@@ -83,38 +86,42 @@ export const service = {
             }
         })
         .then(response => response.json())
-        .then((data) => {
-            if (data.length > 0) {
-                let isUnique
-                data.map(
-                    (item) => {
-                        isUnique = true
-                        if(ticket.length > 0){
-                            for(let i = 0; i < ticket.length; i++){
-                                //verifica se há mais de uma requisição para o mesmo ticket
-                                //se houver, concatena as requisições em um único ticket
-                                if(item['ticket']['id'] === ticket[i]['ticket']['id']){
-                                    //converte a requisição em uma lista de requisições
-                                    if(!Array.isArray(ticket[i]['request'])){
-                                        let req = ticket[i]['request']
-                                        ticket[i]['request'] = []
-                                        ticket[i]['request'].push(req)
-                                    }
-                                    ticket[i]['request'].push(item['request'])
-                                    ticket[i]['quotes'] += item['quotes']
-                                    isUnique = false
-                                }
-                            }
-                            //insere no array o ticket se ele for único
-                            if(isUnique) ticket.push(item)
-                        }else{
-                            //Insere no array o primeiro ticket
-                            ticket.push(item)
+        
+        if (data.length > 0) {
+            let isUnique
+            tickets = data.reduce((ticketArr, ticketCurr) => {
+                isUnique = true
+                for(let i = 0; i < ticketArr.length; i++){
+                    //verifica se há mais de uma requisição para o mesmo ticket
+                    //se houver, concatena as requisições em um único ticket
+                    if(ticketCurr['ticket']['id'] === ticketArr[i]['ticket']['id']){
+                        //converte a requisição em uma lista de requisições
+                        if(!Array.isArray(ticketArr[i]['request'])){
+                            let req = ticketArr[i]['request']
+                            ticketArr[i]['request'] = []
+                            ticketArr[i]['request'].push(req)
                         }
+                        ticketArr[i]['request'].push(ticketCurr['request'])
+                        ticketArr[i]['quotes'] += ticketCurr['quotes']
+                        isUnique = false
                     }
-                )
-            }
-        })
-        return ticket
+                }
+                //insere no array o ticket se ele for único
+                if(isUnique) ticketArr.push(ticketCurr)
+                return ticketArr
+            }, [])
+        }
+        return tickets
     },
+
+    getBet: async (ticket_id) => {
+        const data = await fetch(URL+endpoint_bet+`${ticket_id}/`, {
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json'
+            }
+        }).then((data) => data.json())
+        
+        return data
+    }
 }

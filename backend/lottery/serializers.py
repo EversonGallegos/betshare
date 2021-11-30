@@ -34,6 +34,7 @@ class sendRequestSerializer(serializers.ModelSerializer):
         fields = ('user', 'option', 'quotes', 'suggested_numbers')
 
 class BetSerializer(serializers.ModelSerializer):
+    contest = ContestSerializer()
     class Meta:
         model = Bet
         fields = ('ticket', 'contest', 'numbers', 'status')

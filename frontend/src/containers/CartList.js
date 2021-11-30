@@ -63,9 +63,6 @@ const TableCart = () => {
             <Table>
                 <ContainerTableRowHead>
                         <TableHeadItem>Jogo</TableHeadItem>
-                        <TableHeadItem>Qnt. de números</TableHeadItem>
-                        <TableHeadItem>Preço da cota</TableHeadItem>
-                        <TableHeadItem>Qnt. de cotas</TableHeadItem>
                         <TableHeadItem>Preço total</TableHeadItem>
                         <TableHeadItem></TableHeadItem>
                 </ContainerTableRowHead>

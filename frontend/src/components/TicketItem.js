@@ -1,11 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { ContainerTableRow, 
         TableItem,
         GameName, 
         ColumnItem} from './styles/tables.styles'
+import { BackgroundFill } from './styles/window.styles'
+import BetWindow from './BetWindow'
+import { service } from '../services/api'
 
 const TicketItem = ({ticket}) => {
     const [toggle, setToggle] = useState(false)
+    const [showBet, setShowBet] = useState(false)
+    const [dataBet, setDataBet] = useState({})
+
     const id=ticket['ticket']['id'],
         name=ticket['ticket']['option']['game']['name'],
         numbers=ticket['ticket']['option']['numbers'],
@@ -13,8 +19,20 @@ const TicketItem = ({ticket}) => {
         quotes_sold=(ticket['ticket']['quotes_sold']),
         status=ticket['ticket']['status'],
         price=ticket['ticket']['option']['price']
+
+    useEffect(() => {
+        const getBet = async () => {
+            const data = await service.getBet(id)
+            setDataBet(data)
+        }
+        getBet()
+    }, [])
+
     const handleToggle = () => {
         setToggle(!toggle)
+    }
+    const handleShowBet = () => {
+        setShowBet(!showBet)
     }
     return (
         <>
@@ -41,7 +59,20 @@ const TicketItem = ({ticket}) => {
                     <TableItem>Progresso:</TableItem>
                     <TableItem><progress max={250} value={quotes_sold}/></TableItem>
                 </ContainerTableRow>
+                {Object.keys(dataBet).length > 0 &&
+                <ContainerTableRow>
+                    <TableItem>Bilhete:</TableItem>
+                    <TableItem><button type="button" onClick={handleShowBet}>ver</button></TableItem>
+                </ContainerTableRow>}
             </ColumnItem>}
+            {showBet && 
+            <>    
+                <BetWindow 
+                    handleCancel={handleShowBet} 
+                    data={dataBet}
+                    name={name}/>
+                <BackgroundFill />
+            </>}
         </>
     )
 }

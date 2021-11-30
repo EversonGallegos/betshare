@@ -14,7 +14,6 @@ const TicketList = () => {
     useEffect(() => {
         const getTickets = async () => {
             const data = await service.getQuoteManager()
-            console.log(data)
             setTickets(data)
         } 
         return getTickets()

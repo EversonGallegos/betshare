@@ -55,7 +55,7 @@ export const ContainerTable = styled.div`
     width: 98%;
     background: #fff;
     border-radius: 10px;
-    max-width: 900px;
+    max-width: 600px;
     min-height: 300px;
     padding: 10px;
 `
