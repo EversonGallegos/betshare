@@ -1,11 +1,11 @@
 import React from 'react'
-import TableCart from '../components/TableCart'
+import CartList from '../containers/CartList'
 import Layout from '../containers/Layout'
 
 const Cart = () => {
     return (
         <Layout>
-            <TableCart />
+            <CartList />
         </Layout>
     )
 }

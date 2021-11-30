@@ -75,13 +75,46 @@ export const service = {
         return request.status
     },
     getQuoteManager: async () => {
+        let ticket = []
         const data = await fetch(URL+endpoint_quote_manager, {
             headers: {
                 'Authorization': `token ${token}`,
                 'Content-Type': 'application/json'
             }
-        }).then(response => response.json())
-        console.log(data)
-        return data
+        })
+        .then(response => response.json())
+        .then((data) => {
+            if (data.length > 0) {
+                let isUnique
+                data.map(
+                    (item) => {
+                        isUnique = true
+                        if(ticket.length > 0){
+                            for(let i = 0; i < ticket.length; i++){
+                                //verifica se há mais de uma requisição para o mesmo ticket
+                                //se houver, concatena as requisições em um único ticket
+                                if(item['ticket']['id'] === ticket[i]['ticket']['id']){
+                                    //converte a requisição em uma lista de requisições
+                                    if(!Array.isArray(ticket[i]['request'])){
+                                        let req = ticket[i]['request']
+                                        ticket[i]['request'] = []
+                                        ticket[i]['request'].push(req)
+                                    }
+                                    ticket[i]['request'].push(item['request'])
+                                    ticket[i]['quotes'] += item['quotes']
+                                    isUnique = false
+                                }
+                            }
+                            //insere no array o ticket se ele for único
+                            if(isUnique) ticket.push(item)
+                        }else{
+                            //Insere no array o primeiro ticket
+                            ticket.push(item)
+                        }
+                    }
+                )
+            }
+        })
+        return ticket
     },
-}   
+}

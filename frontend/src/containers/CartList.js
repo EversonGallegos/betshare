@@ -1,21 +1,16 @@
 import React, {useState, useEffect} from 'react'
-import { ConfirmButton, 
-        ContainerCart, 
-        ContainerFooter, 
-        TBODYTableCart, 
-        THEADTableCart, 
-        THTableCart, 
-        TotalValue, 
-        TRTableCart } from '../components/styles/cart.styles'
 import { service } from '../services/api'
-import TableRow from './TableRow'
-import { ContainerHeader, 
+import { ContainerTable,
+    ContainerHeader, 
     ContainerTableRowHead, 
-    ContainerTickets, 
     Subtitle, 
     Table, 
     TableHeadItem, 
-    Title } from '../components/styles/tables.styles'
+    Title,
+    ConfirmButton,  
+    ContainerFooter, 
+    TotalValue } from '../components/styles/tables.styles'
+import CartItem from '../components/CartItem'
 
 
 const TableCart = () => {
@@ -60,7 +55,7 @@ const TableCart = () => {
 
     
     return (
-        <ContainerCart>
+        <ContainerTable>
             <ContainerHeader>
                 <Title>Requisições em aberto</Title>
                 <Subtitle>Conclua o pagamento para finalizar e gerar suas cotas.</Subtitle>
@@ -74,17 +69,15 @@ const TableCart = () => {
                         <TableHeadItem>Preço total</TableHeadItem>
                         <TableHeadItem></TableHeadItem>
                 </ContainerTableRowHead>
-                <TBODYTableCart>
-                    {cart.map((item) =>
-                        <TableRow item={item} onClick={handleDelete} />
-                    )}
-                </TBODYTableCart>
+                {cart.map((item) =>
+                    <CartItem item={item} onClick={handleDelete} />
+                )}
             </Table>
             <ContainerFooter>
                 <TotalValue>Total: {totalPrice}</TotalValue>
                 <ConfirmButton onClick={handleConfirmPayment}>Finalizar</ConfirmButton>      
             </ContainerFooter>
-        </ContainerCart>
+        </ContainerTable>
     )
 }
 

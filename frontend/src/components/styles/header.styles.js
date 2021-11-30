@@ -52,7 +52,7 @@ export const ContainerCartLink = styled.div`
         margin-right: 10px;
         font-weight: 600;
         font-family: 'Futura Bold';
-        text-decoration: none
+        text-decoration: none;
     }
 
 `
@@ -71,4 +71,15 @@ export const ViewCountCart = styled.div`
     z-index: 2;
     top: 10px;
     left: -8%;
+`
+
+export const ContainerTicketsLink = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    a{
+        text-decoration: none;
+        font-family: 'Futura Bold';
+        color: #fff;
+    }
 `

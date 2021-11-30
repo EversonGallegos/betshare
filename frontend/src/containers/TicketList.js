@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import { ContainerHeader, 
         ContainerTableRowHead, 
-        ContainerTickets, 
+        ContainerTable, 
         Subtitle, 
         Table, 
         TableHeadItem, 
-        Title } from '../components/styles/tickets.styles'
+        Title } from '../components/styles/tables.styles'
 import TicketItem from '../components/TicketItem'
 import { service } from '../services/api'
 
@@ -14,68 +14,29 @@ const TicketList = () => {
     useEffect(() => {
         const getTickets = async () => {
             const data = await service.getQuoteManager()
-            handleTickets(data)
+            console.log(data)
+            setTickets(data)
         } 
         return getTickets()
     }, [])
 
-    const handleTickets = (data) => {
-        let ticket = []
-        if (data.length > 0) {
-            let isUnique
-            data.map(
-                (item) => {
-                    isUnique = true
-                    if(ticket.length > 0){
-                        for(let i = 0; i < ticket.length; i++){
-                            if(item['ticket']['id'] === ticket[i]['ticket']['id']){
-                                if(!Array.isArray(ticket[i]['request'])){
-                                    let req = ticket[i]['request']
-                                    ticket[i]['request'] = []
-                                    ticket[i]['request'].push(req)
-                                }
-                                ticket[i]['request'].push(item['request'])
-                                ticket[i]['quotes'] += item['quotes']
-                                isUnique = false
-                            }
-                        }
-                        if(isUnique) ticket.push(item)
-                    }else{
-                        ticket.push(item)
-                    }
-                }
-            )
-        }
-        setTickets(ticket)
-        console.log(ticket)
-    }
-
     return (
-        <ContainerTickets>
+        <ContainerTable>
             <ContainerHeader>
                 <Title>Lista de bilhetes</Title>
                 <Subtitle>Clique para ver mais detalhes</Subtitle>
             </ContainerHeader>
             <Table>
                 <ContainerTableRowHead>
+                    <TableHeadItem>ID</TableHeadItem>
                     <TableHeadItem>Jogo</TableHeadItem>
-                    <TableHeadItem>Qnt de números</TableHeadItem>
-                    <TableHeadItem>Cotas compradas</TableHeadItem>
-                    <TableHeadItem>Progresso</TableHeadItem>
                     <TableHeadItem>Status</TableHeadItem>
                 </ContainerTableRowHead>
-                {tickets.map((item) => 
-                    <TicketItem 
-                        id={item['ticket']['id']}
-                        name={item['ticket']['option']['game']['name']}
-                        numbers={item['ticket']['option']['numbers']}
-                        quotes={item['quotes']}
-                        porcent={(item['ticket']['quotes_sold']/250)*100}
-                        status={item['ticket']['status']}
-                    />)
+                {tickets.map((ticket) => 
+                    <TicketItem ticket={ticket}/>)
                 }
             </Table>
-        </ContainerTickets>
+        </ContainerTable>
     )
 }
 
