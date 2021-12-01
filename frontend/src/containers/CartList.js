@@ -9,7 +9,8 @@ import { ContainerTable,
     Title,
     ConfirmButton,  
     ContainerFooter, 
-    TotalValue } from '../components/styles/tables.styles'
+    TotalValue, 
+    ContainerTableBody} from '../components/styles/tables.styles'
 import CartItem from '../components/CartItem'
 
 
@@ -62,13 +63,15 @@ const TableCart = () => {
             </ContainerHeader>
             <Table>
                 <ContainerTableRowHead>
-                        <TableHeadItem>Jogo</TableHeadItem>
-                        <TableHeadItem>Preço total</TableHeadItem>
-                        <TableHeadItem></TableHeadItem>
+                    <TableHeadItem>Jogo</TableHeadItem>
+                    <TableHeadItem>Preço total</TableHeadItem>
+                    <TableHeadItem></TableHeadItem>
                 </ContainerTableRowHead>
-                {cart.map((item) =>
-                    <CartItem item={item} onClick={handleDelete} />
-                )}
+                <ContainerTableBody>
+                    {cart.map((item) =>
+                        <CartItem item={item} onClick={handleDelete} />
+                    )}
+                </ContainerTableBody>
             </Table>
             <ContainerFooter>
                 <TotalValue>Total: {totalPrice}</TotalValue>

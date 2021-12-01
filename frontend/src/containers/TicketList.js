@@ -5,7 +5,8 @@ import { ContainerHeader,
         Subtitle, 
         Table, 
         TableHeadItem, 
-        Title } from '../components/styles/tables.styles'
+        Title, 
+        ContainerTableBody} from '../components/styles/tables.styles'
 import TicketItem from '../components/TicketItem'
 import { service } from '../services/api'
 
@@ -31,9 +32,11 @@ const TicketList = () => {
                     <TableHeadItem>Jogo</TableHeadItem>
                     <TableHeadItem>Status</TableHeadItem>
                 </ContainerTableRowHead>
-                {tickets.map((ticket) => 
-                    <TicketItem ticket={ticket}/>)
-                }
+                <ContainerTableBody>
+                    {tickets.map((ticket) => 
+                        <TicketItem ticket={ticket}/>)
+                    }
+                </ContainerTableBody>
             </Table>
         </ContainerTable>
     )

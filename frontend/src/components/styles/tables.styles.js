@@ -57,6 +57,7 @@ export const ContainerTable = styled.div`
     border-radius: 10px;
     max-width: 600px;
     min-height: 300px;
+    max-height: 90%;
     padding: 10px;
 `
 
@@ -69,7 +70,14 @@ export const ContainerHeader = styled.div`
     align-items: center;
     margin: 5px 0;
 `
+export const ContainerTableBody = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 75%;
+    overflow-y: scroll;
 
+`
 export const Title = styled.h1`
     font-family: 'Futura Bold';
     font-size: 1.2rem;
