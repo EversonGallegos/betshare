@@ -1,5 +1,5 @@
 import React from 'react'
-import FormLogin from '../components/FormLogin'
+import FormLogin from '../containers/FormLogin'
 import Layout from '../containers/Layout'
 
 const Login = () => {

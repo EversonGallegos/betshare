@@ -5,6 +5,7 @@ import { GlobalStyles } from './styles/global';
 import Cart from './pages/Cart';
 import Tickets from './pages/Tickets';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path='/cart' element={<Cart />} />
           <Route path='/tickets' element={<Tickets />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
         </Routes>
       </Router>
     </>

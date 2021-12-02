@@ -1,11 +1,16 @@
 import React from 'react'
-import Form from './Form'
-import { ButtonSubmit, GroupInputs, Input, Label, SecundaryButton, TitleForm } from './styles/form.styles'
+import Form from '../components/Form'
+import { ButtonSubmit, 
+        GroupInputs, 
+        Input, 
+        Label, 
+        SecundaryButton, 
+        TitleForm } from '../components/styles/form.styles'
 
 const FormLogin = () => {
     return (
         <Form>
-            <TitleForm>Faça o login</TitleForm>
+            <TitleForm>Informações de acesso</TitleForm>
             <GroupInputs>
                 <Label htmlFor='username'>Usuário</Label>
                 <Input 
