@@ -50,6 +50,9 @@ export const SecundaryButton = styled(Link)`
     text-decoration: none;
     color: #000;
     margin-top: 5px;
+    &:hover{
+        opacity: 0.8;
+    }
 `
 
 export const ButtonSubmit = styled.button`
@@ -60,4 +63,14 @@ export const ButtonSubmit = styled.button`
     color: #fff;
     font-family: 'Futura Bold';
     margin-top: 10px;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.8;
+    }
+`
+
+export const ErrorMessage = styled.span`
+    font-size: 0.9rem;
+    color: red;
+    text-align: center;
 `

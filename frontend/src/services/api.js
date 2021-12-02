@@ -4,7 +4,9 @@ import { URL,
     endpoint_cart,
     endpoint_tickets, 
     endpoint_quote_manager,
-    endpoint_bet} from "../constants/globals"
+    endpoint_bet,
+    endpoint_get_token,
+    endpoint_refresh_token} from "../constants/globals"
 
 const token = 'c556349da55f68e59805f7ce0f2558bea2036270'
 
@@ -122,5 +124,53 @@ export const service = {
             }
         }).then((data) => data.json())
         return data
-    }
+    },
+
+    setToken: (access, refresh) => {
+        localStorage.setItem('access_betshare', access)
+        localStorage.setItem('refresh_betshare', refresh)
+    },
+
+    Login: async (username, password) => {
+        const user = JSON.stringify({
+            'username': username, 
+            'password': password})
+        const response = await fetch(URL+endpoint_get_token, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: user
+        }).then((response) => response)
+    
+        if(response.status === 200){
+            const data = await response.json()
+            service.setToken(data['access'], data['refresh'])
+            return response.status
+        }else{
+            return response.status
+        }
+    },
+
+    refreshToken: async () => {
+        const token_refresh = JSON.stringify({
+            'refresh': localStorage.getItem('refresh_betshare')
+        })
+        const response = fetch(URL+endpoint_refresh_token, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: token_refresh
+        }).then(response => response)
+        console.log(token_refresh)
+        if(response.status === 200){
+            const data = await response.json()
+            console.log(data)
+            service.setToken(data['access'], data['refresh'])
+        }
+    },
+
+    
+
 }
