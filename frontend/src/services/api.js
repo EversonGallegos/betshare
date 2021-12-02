@@ -121,7 +121,6 @@ export const service = {
                 'Content-Type': 'application/json'
             }
         }).then((data) => data.json())
-        
         return data
     }
 }
