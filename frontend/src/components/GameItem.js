@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
     ContainerGameItem, 
     GameNumbers, 
@@ -19,6 +19,7 @@ import { service } from '../services/api'
 import GameContext from '../context/GameContext'
 import GameHeader from './GameHeader'
 import NumbersSquare from './NumbersSquare'
+import AuthContext from '../context/AuthContext'
 
 const GameItem = ({color, name, options, total_numbers, total_queue}) => {
     const min = options[0]['numbers']
@@ -38,6 +39,7 @@ const GameItem = ({color, name, options, total_numbers, total_queue}) => {
         setToggle(false)
     }
 
+    const { access_token } = useContext(AuthContext)
     const context = {
         name: name,
         color: color,
@@ -74,7 +76,8 @@ const GameItem = ({color, name, options, total_numbers, total_queue}) => {
         const response = await service.sendRequest(
                                         options[numbers-min].id, 
                                         quote_numbers,
-                                        selecteds)
+                                        selecteds,
+                                        access_token)
         setToggle(false)
         handleSubmit()
         return response

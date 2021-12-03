@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { service } from '../services/api'
 import { ContainerTable,
     ContainerHeader, 
@@ -12,26 +12,27 @@ import { ContainerTable,
     TotalValue, 
     ContainerTableBody} from '../components/styles/tables.styles'
 import CartItem from '../components/CartItem'
+import AuthContext from '../context/AuthContext'
 
 
 const TableCart = () => {
     const [cart, setCart] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
+    const { access_token } = useContext(AuthContext)
 
     const handleListCart = async () => {
-        const ct = await service.getCart()   
-        setCart(ct)
+        const ct = await service.getCart(setCart, access_token)   
     }
     
     const handleConfirmPayment = async () => {
-        const payment =  await service.setPayment()
+        const payment =  await service.setPayment(access_token)
         if(payment === 200){
             setCart([])
         }
     }
 
     const handleDelete = async (pk) => {
-        const status = await service.deleteRequest(pk)
+        const status = await service.deleteRequest(pk, access_token)
         if(status === 200){
             setCart(cart.filter(item => item.id !== pk))
         }else{

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { ContainerTableRow, 
         TableItem,
         GameName, 
@@ -6,6 +6,7 @@ import { ContainerTableRow,
 import { BackgroundFill } from './styles/window.styles'
 import BetWindow from './BetWindow'
 import { service } from '../services/api'
+import AuthContext from '../context/AuthContext'
 
 const TicketItem = ({ticket}) => {
     const [toggle, setToggle] = useState(false)
@@ -19,10 +20,10 @@ const TicketItem = ({ticket}) => {
         quotes_sold=(ticket['ticket']['quotes_sold']),
         status=ticket['ticket']['status'],
         price=ticket['ticket']['option']['price']
-
+    const { access_token } = useContext(AuthContext)
     useEffect(() => {
         const getBet = async () => {
-            const data = await service.getBet(id)
+            const data = await service.getBet(id, access_token)
             setDataBet(data)
         }
         getBet()

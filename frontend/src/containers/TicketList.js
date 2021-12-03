@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { ContainerHeader, 
         ContainerTableRowHead, 
         ContainerTable, 
@@ -9,12 +9,14 @@ import { ContainerHeader,
         ContainerTableBody} from '../components/styles/tables.styles'
 import TicketItem from '../components/TicketItem'
 import { service } from '../services/api'
+import AuthContext from '../context/AuthContext'
 
 const TicketList = () => {
     const [tickets, setTickets] = useState([])
+    const { access_token } = useContext(AuthContext)
     useEffect(() => {
         const getTickets = async () => {
-            const data = await service.getQuoteManager()
+            const data = await service.getQuoteManager(access_token)
             setTickets(data)
         } 
         return getTickets()

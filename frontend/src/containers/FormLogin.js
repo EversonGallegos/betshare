@@ -8,24 +8,22 @@ import { ButtonSubmit,
         SecundaryButton, 
         TitleForm } from '../components/styles/form.styles'
 import AuthContext from '../context/AuthContext'
-import { service } from '../services/api'
 
 const FormLogin = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState()
-
-    const Login = async (e) => {
+        
+    const { login } = useContext(AuthContext)
+    
+    const handleLogin = (e) => {
         e.preventDefault()
-        const status = await service.Login(username, password)
-        if(status !== 200){
-            setError('Usuário e/ou senha não está correto!')
-            setTimeout(() => setError(''), 3000)
-        }
+        login(username, password)
     }
+    
 
     return (
-        <Form action={Login}>
+        <Form action={handleLogin}>
             <TitleForm>Informações de acesso</TitleForm>
             {error &&
             <ErrorMessage>{error}</ErrorMessage>}

@@ -6,19 +6,22 @@ import Cart from './pages/Cart';
 import Tickets from './pages/Tickets';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
     <>
       <GlobalStyles />
       <Router>
-        <Routes>
-          <Route path='/home' element={<Home />} />
-          <Route path='/cart' element={<Cart />} />
-          <Route path='/tickets' element={<Tickets />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-        </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route path='/home' element={<Home />} />
+              <Route path='/cart' element={<Cart />} />
+              <Route path='/tickets' element={<Tickets />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/register' element={<Register />} />
+            </Routes>
+          </AuthProvider>
       </Router>
     </>
   );

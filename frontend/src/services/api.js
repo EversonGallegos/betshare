@@ -2,36 +2,33 @@ import { URL,
     endpoint_games, 
     endpoint_send_request, 
     endpoint_cart,
-    endpoint_tickets, 
     endpoint_quote_manager,
     endpoint_bet,
     endpoint_get_token,
     endpoint_refresh_token} from "../constants/globals"
 
-const token = 'c556349da55f68e59805f7ce0f2558bea2036270'
-
 export const service = {
-    getGames: async (hook) =>{
+    getGames: async (hook, access_token) =>{
         const data = await fetch(URL+endpoint_games, {
             headers: {
-                'Authorization': `token ${token}`,
+                'Authorization': `Bearer ${access_token}`,
                 'Content-Type': 'application/json'
             }
         }).then(response => response.json())
         const result = await data
         hook(result)
     },
-    sendRequest: async (option, quotes, selecteds) => {
+
+    sendRequest: async (option, quotes, selecteds, access_token) => {
         const data = JSON.stringify({
                                 "option": option, 
                                 "quotes": quotes,
                                 "suggested_numbers": selecteds})
-                            
-        console.log(data)
+
         const request = await fetch(URL+endpoint_send_request,{
             method: 'POST',
             headers: {
-                'Authorization': `token ${token}`,
+                'Authorization': `Bearer ${access_token}`,
                 'Content-Type': 'application/json'
             },
             body: data
@@ -39,51 +36,51 @@ export const service = {
         return request
     },
 
-    getCart: async () =>{
-        const data = await fetch(URL+endpoint_cart, {
+    getCart: async (hook, access_token) =>{
+        const response = await fetch(URL+endpoint_cart, {
             headers: {
-                'Authorization': `token ${token}`,
+                'Authorization': `Bearer ${access_token}`,
                 'Content-Type': 'application/json'
             }
         }).then(response => response.json())
-        
-        return data
+        const data = await response
+        hook(data)
     },
 
-    deleteRequest: async (id) =>{
+    deleteRequest: async (id, access_token) =>{
         const data = await fetch(URL+endpoint_cart+`${id}/`, {
             method: 'delete',
             headers: {
-                'Authorization': `token ${token}`,
+                'Authorization': `Bearer ${access_token}`,
             }
         }).then(result => result)
         return data.status
     },
 
-    getLengthCart: async () => {
+    getLengthCart: async (access_token) => {
         const data = await fetch(URL+endpoint_cart+'length/',{
             headers: {
-                'Authorization': `token ${token}`,
+                'Authorization': `Bearer ${access_token}`,
             }
         }).then(result => result.json())
         return data
     },
 
-    setPayment: async () => {
+    setPayment: async (access_token) => {
         const request = await fetch(URL+endpoint_cart,{
             method: 'post',
             headers: {
-                'Authorization': `token ${token}`,
+                'Authorization': `Bearer ${access_token}`,
             }
         }).then(result => result)
         return request.status
     },
 
-    getQuoteManager: async () => {
+    getQuoteManager: async (access_token) => {
         let tickets = []
         const data = await fetch(URL+endpoint_quote_manager, {
             headers: {
-                'Authorization': `token ${token}`,
+                'Authorization': `Bearer ${access_token}`,
                 'Content-Type': 'application/json'
             }
         })
@@ -116,10 +113,10 @@ export const service = {
         return tickets
     },
 
-    getBet: async (ticket_id) => {
+    getBet: async (ticket_id, access_token) => {
         const data = await fetch(URL+endpoint_bet+`${ticket_id}/`, {
             headers: {
-                'Authorization': `token ${token}`,
+                'Authorization': `Bearer ${access_token}`,
                 'Content-Type': 'application/json'
             }
         }).then((data) => data.json())
@@ -163,14 +160,9 @@ export const service = {
             },
             body: token_refresh
         }).then(response => response)
-        console.log(token_refresh)
         if(response.status === 200){
             const data = await response.json()
-            console.log(data)
             service.setToken(data['access'], data['refresh'])
         }
     },
-
-    
-
 }

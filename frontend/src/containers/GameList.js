@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import GameItem from '../components/GameItem'
 import { ContainerGameList, Inner } from '../components/styles/gamelist.styles'
 import { service } from '../services/api'
+import AuthContext from '../context/AuthContext'
 
 const GameList = () => { 
     const [games, setGames] = useState([])
+    const { access_token } = useContext(AuthContext)
+
     useEffect(() => {
-        service.getGames(setGames)
+        service.getGames(setGames, access_token)
     },[])
 
     return (
