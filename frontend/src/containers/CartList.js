@@ -60,7 +60,7 @@ const TableCart = () => {
         <ContainerTable>
             <ContainerHeader>
                 <Title>Requisições em aberto</Title>
-                <Subtitle>Conclua o pagamento para finalizar e gerar suas cotas.</Subtitle>
+                <Subtitle>Para gerar suas cotas, finalize os pagamentos.</Subtitle>
             </ContainerHeader>
             <Table>
                 <ContainerTableRowHead>
@@ -70,7 +70,11 @@ const TableCart = () => {
                 </ContainerTableRowHead>
                 <ContainerTableBody>
                     {cart.map((item) =>
-                        <CartItem item={item} onClick={handleDelete} />
+                        <CartItem 
+                            key={item['id']} 
+                            item={item} 
+                            onClick={handleDelete} 
+                        />
                     )}
                 </ContainerTableBody>
             </Table>

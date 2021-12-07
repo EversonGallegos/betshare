@@ -15,9 +15,9 @@ const GameList = () => {
     return (
         <Inner>    
             <ContainerGameList>
-                {games.map((item, key) => item['is_active'] &&
+                {games.map((item) => item['is_active'] &&
                 <GameItem 
-                    key={key}
+                    key={item['name']}
                     name={item['name']}
                     color={item['color']}
                     options={item['options']}

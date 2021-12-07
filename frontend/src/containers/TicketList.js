@@ -36,7 +36,7 @@ const TicketList = () => {
                 </ContainerTableRowHead>
                 <ContainerTableBody>
                     {tickets.map((ticket) => 
-                        <TicketItem ticket={ticket}/>)
+                        <TicketItem key={ticket['ticket']['id']} ticket={ticket}/>)
                     }
                 </ContainerTableBody>
             </Table>

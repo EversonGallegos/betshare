@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro'
+import { Link, Navigate } from 'react-router-dom'
 
 export const LogoStyled = styled.h1`
     display: flex;
@@ -21,13 +22,21 @@ export const ContainerHeader = styled.div`
     display: flex;
     justify-content: center;
 `
-export const AuthButton = styled.div`
+export const AuthButton = styled(Link)`
     color: white;
     margin-right: 10px;
     font-weight: 600;
     font-family: 'Futura Bold';
+    text-decoration: none;
 `
-
+export const LogoutBtn = styled.div`
+    color: white;
+    margin-right: 10px;
+    font-weight: 600;
+    font-family: 'Futura Bold';
+    text-decoration: none;
+    cursor: pointer;
+`
 export const ContainerAuth = styled.nav`
     display: flex;
     justify-content: center;

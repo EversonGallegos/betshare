@@ -3,7 +3,7 @@ import { AuthButton } from './styles/header.styles'
 
 const LoginButton = () => {
     return (
-        <AuthButton>
+        <AuthButton to='/login'>
             Login
         </AuthButton>
     )

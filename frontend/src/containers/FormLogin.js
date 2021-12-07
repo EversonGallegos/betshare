@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Form from '../components/Form'
 import { ButtonSubmit, 
         ErrorMessage, 
@@ -13,12 +14,19 @@ const FormLogin = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState()
-        
     const { login } = useContext(AuthContext)
+    const navigate = useNavigate()
     
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
-        login(username, password)
+        const status = await login(username, password)
+        console.log(status)
+        if(status === 200){
+            navigate('/home')
+        }else{
+            setError('Usuário e/ou senha incorretos')
+            setTimeout(() => setError(''), 3000)
+        }
     }
     
 

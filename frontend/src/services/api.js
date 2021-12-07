@@ -132,6 +132,7 @@ export const service = {
         const user = JSON.stringify({
             'username': username, 
             'password': password})
+
         const response = await fetch(URL+endpoint_get_token, {
             method: 'POST',
             headers: {
@@ -153,16 +154,24 @@ export const service = {
         const token_refresh = JSON.stringify({
             'refresh': localStorage.getItem('refresh_betshare')
         })
-        const response = fetch(URL+endpoint_refresh_token, {
+        const response = await fetch(URL+endpoint_refresh_token, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: token_refresh
-        }).then(response => response)
+        }).then((response) => response)
+
         if(response.status === 200){
             const data = await response.json()
             service.setToken(data['access'], data['refresh'])
         }
+
+        return response.status
     },
+
+    logout: async () => {
+        localStorage.removeItem('access_betshare')
+        localStorage.removeItem('refresh_betshare')
+    }
 }

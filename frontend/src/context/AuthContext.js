@@ -1,4 +1,4 @@
-import React, {createContext, useState} from 'react'
+import React, {createContext, useState, useEffect} from 'react'
 import { service } from '../services/api'
 const AuthContext = createContext()
 
@@ -22,6 +22,20 @@ export const AuthProvider = ({children}) => {
         }
         return status
     }
+
+    const updateToken = async () => {
+        const status = await service.refreshToken()
+        if(status === 200){
+            setAccess(() => localStorage.getItem('access_betshare'))
+            setRefresh(() => localStorage.getItem('refresh_betshare'))
+        }
+    }
+
+    useEffect(() => {
+        const time = 1000 * 60 * 4
+        const interval = setInterval(() => updateToken(), time)   
+        return () => clearInterval(interval)
+    }, [])
 
     const context = {
         access_token: access,
