@@ -1,16 +1,13 @@
 import { GlobalStyles } from './styles/global';
 import { AuthProvider } from './context/AuthContext';
-
-import Routering from './routes/Routering';
+import Routing from './routes/Routing';
 
 function App() {
   return (
-    <>
-      <GlobalStyles />
       <AuthProvider>
-        <Routering />
+        <GlobalStyles />
+        <Routing />
       </AuthProvider>
-    </>
   );
 }
 

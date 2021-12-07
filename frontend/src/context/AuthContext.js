@@ -22,6 +22,11 @@ export const AuthProvider = ({children}) => {
         }
         return status
     }
+    const Logout = () => {
+        setAccess()
+        setRefresh()
+        service.logout()
+    }
 
     const updateToken = async () => {
         const status = await service.refreshToken()
@@ -40,7 +45,8 @@ export const AuthProvider = ({children}) => {
     const context = {
         access_token: access,
         refresh_token: refresh,
-        login: Login
+        login: Login,
+        logout: Logout
     }
 
     return (

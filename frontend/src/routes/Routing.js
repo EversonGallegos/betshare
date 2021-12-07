@@ -8,7 +8,7 @@ import Tickets from '../pages/Tickets';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import AuthContext from '../context/AuthContext';
 
-const Routering = () => {
+const Routing = () => {
     return (
         <Router>
             <Suspense fallback={<h2>Loading...</h2>}>
@@ -30,4 +30,4 @@ const Routering = () => {
     )
 }
 
-export default Routering
+export default Routing

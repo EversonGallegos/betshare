@@ -1,17 +1,16 @@
-import React, {useState, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
-import { service } from '../services/api'
+import React, { useContext } from 'react'
 import { LogoutBtn } from './styles/header.styles'
-
-const LogoutButton = () => {
-    const [logout, setLogout] = useState(false)
+import AuthContext from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+const LogoutButton = () => {  
+    const { logout } = useContext(AuthContext)
     const navigate = useNavigate()
+
     const handleLogout = () => {
-        service.logout()
-        setLogout(true)
+        logout()
         navigate('/login')
     }
-    
+
     return (
         <LogoutBtn onClick={handleLogout}>
             Logout
