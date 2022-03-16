@@ -13,9 +13,6 @@ class UserDocs(models.Model):
     RG = models.CharField(max_length=20, blank=True)
     date_of_birth = models.DateField(blank=True)
     CPF = models.CharField(max_length=20, blank=True)
-
-class UserContact(models.Model):
-    user = models.OneToOneField(User, on_delete=CASCADE)
     phone = models.CharField(max_length=20)
 
 class UserAddress(models.Model):
@@ -31,12 +28,6 @@ class UserFinanceInfo(models.Model):
     bank = models.CharField(max_length=50)
     agency =  models.CharField(max_length=50)
     account = models.CharField(max_length=50)
-
-class UserBalance(models.Model):
-    user = models.OneToOneField(User, on_delete=CASCADE)
     balance = models.FloatField(blank=True, null=True)
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
+    pix_key =  models.CharField(max_length=255)
+   

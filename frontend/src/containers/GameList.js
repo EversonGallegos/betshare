@@ -3,14 +3,26 @@ import GameItem from '../components/GameItem'
 import { ContainerGameList, Inner } from '../components/styles/gamelist.styles'
 import { service } from '../services/api'
 import AuthContext from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const GameList = () => { 
     const [games, setGames] = useState([])
-    const { access_token } = useContext(AuthContext)
+    const { access_token, logout } = useContext(AuthContext)
+    const navigate = useNavigate()
 
     useEffect(() => {
-        service.getGames(setGames, access_token)
-    },[])
+        const getData = async () => {
+            const response = await service.getGames(access_token)
+            if(response.status === 200){
+                const data = await response.json()
+                setGames(data)
+            }else if(response.status === 401){
+                logout()
+                navigate('/login')
+            }
+        }
+        getData()
+    }, [])
 
     return (
         <Inner>    

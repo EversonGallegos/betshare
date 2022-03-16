@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.deletion import CASCADE, DO_NOTHING
+from django.db.models.deletion import CASCADE, DO_NOTHING, SET_NULL
 from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.http import request
@@ -17,7 +17,7 @@ class RequestStatus(models.Choices):
     FINISHED = 'finished'
 
 class Request(models.Model):
-    user = models.ForeignKey(User, on_delete=DO_NOTHING, related_name='userrequest')
+    user = models.ForeignKey(User, on_delete=SET_NULL, related_name='userrequest', null=True)
     option = models.ForeignKey(Option, on_delete=DO_NOTHING, related_name='option')
     quotes = models.IntegerField()
     price =  models.FloatField(null=True, blank=True)
@@ -109,7 +109,7 @@ class Prize(models.Model):
     winners = models.IntegerField()
 
 class UserPrize(models.Model):
-    user = models.ForeignKey(User, on_delete=CASCADE)
+    user = models.ForeignKey(User, on_delete=SET_NULL, null=True)
     request = models.ForeignKey(Request, on_delete=CASCADE)
     value = models.FloatField()
     proof = models.ImageField()

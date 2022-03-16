@@ -33,7 +33,7 @@ class GamesView(ViewSet):
         serializer = GameSerializer(game)
         return Response(serializer.data)
 
-@permission_classes([IsAuthenticated])
+
 class RequestView(ViewSet):
     def create(self, request):
         data = request.data
@@ -62,7 +62,6 @@ class RequestView(ViewSet):
         except Request.DoesNotExist:
             return Response({'error':'request not found'},status=status.HTTP_404_NOT_FOUND)
 
-@permission_classes([IsAuthenticated])
 class ContestView(ViewSet):
     def retrieve(self, request, pk):
         try:
@@ -76,9 +75,7 @@ class ContestView(ViewSet):
         data = Contest.objects.all()
         serializer = ContestSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-@permission_classes([IsAuthenticated])       
+     
 class BetView(ViewSet):
     def retrieve(self, request, pk):
         try:
@@ -100,7 +97,6 @@ class BetView(ViewSet):
         serializer = BetSerializer(bets, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-@permission_classes([IsAuthenticated])
 class TicketView(ViewSet):    
     def retrieve(self, request, pk):
         requests = Request.objects.filter(user = request.user)
@@ -134,7 +130,6 @@ class TicketView(ViewSet):
                 {'error':'ticket not found'}, 
                 status=status.HTTP_404_NOT_FOUND)
 
-@permission_classes([IsAuthenticated])
 class Cart(ViewSet):
     def list(self, request):
         user = request.user
@@ -163,8 +158,6 @@ class Cart(ViewSet):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
-
-@permission_classes([IsAuthenticated])
 class CartLength(APIView):
     def get(self, request):
         user = request.user
@@ -172,7 +165,6 @@ class CartLength(APIView):
         length = len(cartlist)
         return Response(length)
 
-@permission_classes([IsAuthenticated])
 class QuoteManagerView(APIView):
     def get(self, request):
         user = request.user

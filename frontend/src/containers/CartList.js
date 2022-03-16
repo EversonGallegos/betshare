@@ -13,17 +13,28 @@ import { ContainerTable,
     ContainerTableBody} from '../components/styles/tables.styles'
 import CartItem from '../components/CartItem'
 import AuthContext from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 
 const TableCart = () => {
     const [cart, setCart] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
-    const { access_token } = useContext(AuthContext)
+    const { access_token, logout } = useContext(AuthContext)
+    const navigate = useNavigate()
+    useEffect(() => {
+        const getCart = async () => {
+            const response = await service.getCart(access_token)
+            if(response.status === 200){
+                const data = await response.json()
+                setCart(data)
+            }else if(response.status === 401){
+                logout()
+                navigate('/login')
+            }
+        }
+        getCart()
+    }, [])
 
-    const handleListCart = async () => {
-        const ct = await service.getCart(setCart, access_token)   
-    }
-    
     const handleConfirmPayment = async () => {
         const payment =  await service.setPayment(access_token)
         if(payment === 200){
@@ -39,10 +50,6 @@ const TableCart = () => {
             alert('Houve um erro na exclusão da aposta.')
         }
     }
-
-    useEffect(() => {
-        handleListCart()
-    }, [])
 
     useEffect(() => {
         const setPrice = () => {
